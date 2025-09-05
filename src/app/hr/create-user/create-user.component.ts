@@ -1,15 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {NgForOf, NgIf} from '@angular/common';
+import {UsersService} from '../../shared-data/users.service';
+import {UserRequestBody} from '../../shared-data/paginated-users';
 
 // Interfaces
 interface Manager {
-  id: string;
+  id: number;
   name: string;
 }
 
 interface Role {
-  id: string;
   name: string;
 }
 
@@ -25,8 +26,6 @@ interface Employee {
   standalone: true,
   imports: [
     ReactiveFormsModule,
-    NgForOf,
-    NgIf
   ],
   templateUrl: './create-user.component.html',
   styleUrl: './create-user.component.scss'
@@ -37,22 +36,21 @@ export class CreateUserComponent implements OnInit{
 
   // Sample data - replace with actual data from your service
   managers: Manager[] = [
-    { id: '1', name: 'John Smith' },
-    { id: '2', name: 'Sarah Johnson' },
-    { id: '3', name: 'Michael Brown' },
-    { id: '4', name: 'Emily Davis' }
+    { id: 1, name: 'John Smith' },
+    { id: 2, name: 'Sarah Johnson' },
+    { id: 3, name: 'Michael Brown' },
   ];
 
   roles: Role[] = [
-    { id: '1', name: 'Software Engineer' },
-    { id: '2', name: 'Senior Developer' },
-    { id: '3', name: 'Team Lead' },
-    { id: '4', name: 'Product Manager' },
-    { id: '5', name: 'Designer' },
-    { id: '6', name: 'QA Engineer' }
+    { name: 'MANAGER' },
+    { name: 'HR' },
+    { name: 'EMPLOYEE' },
   ];
 
-  constructor(private formBuilder: FormBuilder) {
+  constructor(
+    private formBuilder: FormBuilder,
+    private readonly usersService: UsersService
+  ) {
     this.employeeForm = this.createForm();
   }
 
@@ -64,10 +62,11 @@ export class CreateUserComponent implements OnInit{
 
   private createForm(): FormGroup {
     return this.formBuilder.group({
-      employeeName: ['', [Validators.required, Validators.minLength(2)]],
-      manager: ['', Validators.required],
-      totalLeaves: [25, [Validators.required, Validators.min(0), Validators.max(365)]],
-      role: ['', Validators.required]
+      name: ['', [Validators.required, Validators.minLength(2)]],
+      role: ['', Validators.required],
+      managerId: [''],
+      totalCredits: [25, [Validators.required, Validators.min(0), Validators.max(365)]],
+      remainingCredits: [25, [Validators.required, Validators.min(0), Validators.max(365)]]
     });
   }
 
@@ -76,6 +75,16 @@ export class CreateUserComponent implements OnInit{
     // this.managerService.getManagers().subscribe(managers => {
     //   this.managers = managers;
     // });
+
+    this.usersService.getAllUsers(1, 50).subscribe({
+      next: (data) => {
+        // data.content is the list of all users
+        this.managers = data.content
+          .filter(user => user.role === 'MANAGER')
+          .map(user => ({ id: user.id, name: user.name }));
+
+      }
+    });
   }
 
   private loadRoles(): void {
@@ -84,22 +93,37 @@ export class CreateUserComponent implements OnInit{
     //   this.roles = roles;
     // });
   }
+  saveUser(): void {
+    console.log(this.employeeForm.getRawValue());
 
-  onSubmit(): void {
     if (this.employeeForm.valid) {
       this.isSubmitting = true;
 
-      const employeeData: Employee = this.employeeForm.value;
+      const employeeData: UserRequestBody = {
+        ...this.employeeForm.value,
+        managerId: this.employeeForm.value.managerId || null
+      };
 
-      // Replace with actual service call
-      this.addEmployee(employeeData);
+      this.usersService.saveUser(employeeData).subscribe({
+        next: (response) => {
+          console.log('User saved successfully:', response);
+          this.handleSuccess();
+        },
+        error: (error) => {
+          console.error('Error saving user:', error);
+          this.handleError(error);
+        },
+        complete: () => {
+          this.isSubmitting = false;
+        }
+      });
     } else {
-      // Mark all fields as touched to show validation errors
       this.markFormGroupTouched();
     }
   }
 
-  private addEmployee(employeeData: Employee): void {
+
+  private addEmployee(employeeData: UserRequestBody): void {
     // Simulate API call
     setTimeout(() => {
       console.log('Employee added:', employeeData);

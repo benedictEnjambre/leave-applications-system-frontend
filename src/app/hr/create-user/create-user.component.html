@@ -7,14 +7,14 @@
 
 <div class="form-container">
 
-  <form [formGroup]="employeeForm" (ngSubmit)="onSubmit()" class="employee-form">
+  <form [formGroup]="employeeForm" (submit)="saveUser()" class="employee-form">
     <!-- Employee Name Field -->
     <div class="form-group">
-      <label for="employeeName" class="form-label">Employee Name</label>
+      <label for="name" class="form-label">Employee Name</label>
       <input
-        id="employeeName"
+        id="name"
         type="text"
-        formControlName="employeeName"
+        formControlName="name"
         class="form-input"
         placeholder="Enter employee name"
       />
@@ -22,9 +22,9 @@
 
     <!-- Manager Field -->
     <div class="form-group">
-      <label for="manager" class="form-label">Manager</label>
-      <select id="manager" formControlName="manager" class="form-select">
-        <option value="" disabled>Select Manager</option>
+      <label for="managerId" class="form-label">Manager</label>
+      <select id="managerId" formControlName="managerId" class="form-select">
+        <option [ngValue]="null">-- No Manager --</option>
         @for (manager of managers; track manager.id) {
           <option [value]="manager.id">
             {{ manager.name }}
@@ -35,12 +35,12 @@
 
     <!-- Total Leaves Field -->
     <div class="form-group">
-      <label for="totalLeaves" class="form-label">Total Leaves</label>
+      <label for="totalCredits" class="form-label">Total Leaves</label>
       <div class="input-wrapper">
         <input
-          id="totalLeaves"
+          id="totalCredits"
           type="number"
-          formControlName="totalLeaves"
+          formControlName="totalCredits"
           class="form-input"
           min="0"
           max="365"
@@ -54,14 +54,13 @@
       <label for="role" class="form-label">Role</label>
       <select id="role" formControlName="role" class="form-select">
         <option value="" disabled>Select Role</option>
-        @for (role of roles; track role.id) {
-          <option [value]="role.id">
+        @for (role of roles; track role.name) {
+          <option [value]="role.name">
             {{ role.name }}
           </option>
         }
       </select>
     </div>
-
     <!-- Submit Button -->
     <div class="form-actions">
       <button

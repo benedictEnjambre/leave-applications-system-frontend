@@ -40,14 +40,14 @@ export class UsersListComponent implements OnInit {
   ngOnInit() {
     this.loadUsers();
 
-    const nav = history.state;
+/*    const nav = history.state;
     if (nav?.created) {
       this.showSuccessMsg = 'User successfully created';
       this.successType = 'success';
     } else if (nav?.edited) {
       this.showSuccessMsg = 'User successfully edited';
       this.successType = 'info';
-    }
+    }*/
   }
 
   private loadUsers(page: number = 1) {
