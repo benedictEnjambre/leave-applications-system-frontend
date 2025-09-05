@@ -1,0 +1,79 @@
+
+    <div class="form-container">
+      <div class="form-header">
+        <h1 class="form-title">Add Employee</h1>
+        <p class="form-subtitle">Create a new employee profile</p>
+      </div>
+
+      <form [formGroup]="employeeForm" (ngSubmit)="onSubmit()" class="employee-form">
+        <!-- Employee Name Field -->
+        <div class="form-group">
+          <label for="employeeName" class="form-label">Employee Name</label>
+          <input
+            id="employeeName"
+            type="text"
+            formControlName="employeeName"
+            class="form-input"
+            placeholder="Enter employee name"
+          />
+        </div>
+
+        <!-- Manager Field -->
+        <div class="form-group">
+          <label for="manager" class="form-label">Manager</label>
+          <select
+            id="manager"
+            formControlName="manager"
+            class="form-select"
+          >
+            <option value="" disabled>Select Manager</option>
+            <option *ngFor="let manager of managers" [value]="manager.id">
+              {{ manager.name }}
+            </option>
+          </select>
+        </div>
+
+        <!-- Total Leaves Field -->
+        <div class="form-group">
+          <label for="totalLeaves" class="form-label">Total Leaves</label>
+          <div class="input-wrapper">
+            <input
+              id="totalLeaves"
+              type="number"
+              formControlName="totalLeaves"
+              class="form-input"
+              min="0"
+              max="365"
+            />
+            <span class="input-icon">📅</span>
+          </div>
+        </div>
+
+        <!-- Role Field -->
+        <div class="form-group">
+          <label for="role" class="form-label">Role</label>
+          <select
+            id="role"
+            formControlName="role"
+            class="form-select"
+          >
+            <option value="" disabled>Select Role</option>
+            <option *ngFor="let role of roles" [value]="role.id">
+              {{ role.name }}
+            </option>
+          </select>
+        </div>
+
+        <!-- Submit Button -->
+        <div class="form-actions">
+          <button
+            type="submit"
+            class="btn-primary"
+            [disabled]="employeeForm.invalid || isSubmitting"
+          >
+            <span *ngIf="isSubmitting" class="loading-spinner"></span>
+            {{ isSubmitting ? 'Adding Employee...' : 'Add Employee' }}
+          </button>
+        </div>
+      </form>
+    </div>
