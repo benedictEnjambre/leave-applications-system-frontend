@@ -1,0 +1,223 @@
+// Employee Management SCSS
+.page-title {
+  font-family: 'Inter', sans-serif;
+  font-size: 1.75rem;
+  font-weight: 600;
+  margin: 0;
+  padding: 2rem 0 0.5rem 0;
+  color: #2c3e50;
+  letter-spacing: -0.02em;
+}
+
+.page-subtitle {
+  color: #6c757d;
+  font-size: 1rem;
+  font-weight: 400;
+  margin-bottom: 2rem;
+}
+
+.employees-container {
+  padding: 0 2rem 2rem 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.search-container {
+  margin-bottom: 1.5rem;
+  position: relative;
+
+  .search-input {
+    width: 100%;
+    max-width: 400px;
+    padding: 0.75rem 1rem 0.75rem 2.5rem;
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    background: white;
+    color: #495057;
+    transition: all 0.2s ease;
+
+    &:focus {
+      outline: none;
+      border-color: #4285f4;
+      box-shadow: 0 0 0 3px rgba(66, 133, 244, 0.1);
+    }
+  }
+
+  .search-icon {
+    position: absolute;
+    left: 0.75rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #6c757d;
+    font-size: 0.9rem;
+  }
+}
+
+.employees-table {
+  width: 100%;
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e9ecef;
+  border-collapse: collapse;
+
+  th,
+  td {
+    padding: 1rem;
+    text-align: left;
+    border-bottom: 1px solid #f1f3f4;
+  }
+
+  thead {
+    background: #f8f9fa;
+
+    th {
+      font-size: 0.85rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: #6c757d;
+    }
+  }
+
+  tbody {
+    tr {
+      transition: background-color 0.15s ease;
+
+      &:hover {
+        background: #f8f9fa;
+      }
+
+      &:last-child td {
+        border-bottom: none;
+      }
+    }
+
+    td {
+      color: #495057;
+      font-weight: 400;
+    }
+  }
+
+  .employee-id {
+    font-family: 'Monaco', 'Menlo', monospace;
+    font-size: 0.9rem;
+    color: #6c757d;
+    font-weight: 500;
+  }
+
+  .employee-name {
+    font-weight: 500;
+    color: #2c3e50;
+  }
+
+  .manager-name {
+    color: #495057;
+  }
+
+  .leave-count {
+    font-weight: 500;
+    color: #495057;
+  }
+
+  .current-leaves {
+    color: #dc3545;
+    font-weight: 600;
+  }
+
+  .actions-cell {
+    text-align: center;
+  }
+}
+
+.btn-edit {
+  background: #4285f4;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+
+  &:hover {
+    background: #3367d6;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(66, 133, 244, 0.3);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 2rem;
+  font-family: 'Inter', sans-serif;
+
+  span {
+    padding: 0.5rem 1rem;
+    background: white;
+    border: 1px solid #dee2e6;
+    border-radius: 6px;
+    font-weight: 500;
+    color: #495057;
+    font-size: 0.9rem;
+  }
+
+  button {
+    background: white;
+    color: #4285f4;
+    border: 1px solid #dee2e6;
+    border-radius: 6px;
+    padding: 0.5rem 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 0.9rem;
+
+    &:hover:not(:disabled) {
+      background: #4285f4;
+      color: white;
+      border-color: #4285f4;
+    }
+
+    &:disabled {
+      background: #f8f9fa;
+      color: #6c757d;
+      cursor: not-allowed;
+      border-color: #e9ecef;
+    }
+  }
+}
+
+// Responsive design
+@media (max-width: 768px) {
+  .employees-container {
+    padding: 0 1rem 1rem 1rem;
+  }
+
+  .employees-table {
+    font-size: 0.85rem;
+
+    th,
+    td {
+      padding: 0.75rem 0.5rem;
+    }
+  }
+
+  .page-title {
+    font-size: 1.5rem;
+    padding: 1.5rem 0 0.5rem 0;
+  }
+}
