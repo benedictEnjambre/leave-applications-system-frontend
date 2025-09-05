@@ -1,9 +1,9 @@
-<app-header></app-header>
+<app-header (userChanged)="onUserChanged($event)"></app-header>
 
 <div class="layout">
-  <app-sidebar></app-sidebar>
+  <app-sidebar [selectedUser]="selectedUser"></app-sidebar>
 
   <main class="page-content">
-    <router-outlet></router-outlet>
+      <router-outlet></router-outlet>
   </main>
 </div>

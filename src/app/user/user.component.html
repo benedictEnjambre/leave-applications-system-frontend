@@ -1,0 +1,5 @@
+<select class="user-dropdown" [value]="selectedUser" (change)="onUserChanged($event)">
+  <option *ngFor="let user of users" [value]="user">
+    {{ user }}
+  </option>
+</select>
