@@ -1,9 +1,14 @@
 import { Routes } from '@angular/router';
-
-import {HeaderComponent} from './shared-components/header/header.component';
+import {CreateUserComponent} from './hr/create-user/create-user.component';
+import {AppComponent} from './app.component';
 
 export const routes: Routes = [
-  // {
-  //   path: '', component: HeaderComponent
-  // }
+  {
+    path:'hr',
+    children:[
+      {
+        path:'create-employee', component: CreateUserComponent
+      }
+    ]
+  }
 ];
