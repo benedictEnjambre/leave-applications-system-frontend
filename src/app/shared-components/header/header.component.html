@@ -1,0 +1,22 @@
+<!--<header class="header">-->
+<!--  <div class="title">Leave Management System</div>-->
+
+<!--  <select class="user-dropdown">[value]="selectedUser"(change)="onUserChanged($event)">-->
+
+<!--    <option *ngFor="let user of users" [value]="(user)">-->
+<!--      {{(user) }}-->
+<!--    </option>-->
+
+<!--  </select>-->
+<!--</header>-->
+
+
+<header class="header">
+  <div class="title">Leave Management System</div>
+
+  <select class="user-dropdown" [value]="selectedUser" (change)="onUserChanged($event)">
+    <option *ngFor="let user of users" [value]="user">
+      {{ user }}
+    </option>
+  </select>
+</header>
