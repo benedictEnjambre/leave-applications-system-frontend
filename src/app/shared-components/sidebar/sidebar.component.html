@@ -1,26 +1,10 @@
-<!--<div class="sidebar-container">-->
-<!--  <h3>Employees</h3>-->
-<!--  <ul class="nav-list">-->
-<!--    <li><a routerLink="/employees">Employees</a></li>-->
-<!--    <li><a routerLink="/employees/add">Add New</a></li>-->
-<!--    <li><a routerLink="/employees/leaves">Leaves</a></li>-->
-<!--  </ul>-->
-<!--</div>-->
 
 <aside class="sidebar">
   <ul>
-    <li
-      [class.active]="activeItem === 'employees'"
-      (click)="setActive('employees')">
-      Employees
-    </li>
-    <li
-      [class.active]="activeItem === 'add-new'" (click)="setActive('add-new')">
-      Add New
-    </li>
-    <li [class.active]="activeItem === 'leaves'"
-      (click)="setActive('leaves')">
-      Leaves
+    <li *ngFor="let item of menuItems"
+        [class.active]="activeItem === item"
+        (click)="setActive(item)">
+      {{ item }}
     </li>
   </ul>
 </aside>

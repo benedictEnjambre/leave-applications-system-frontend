@@ -8,10 +8,24 @@
 <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
 
 
-<app-header></app-header>
-<app-sidebar></app-sidebar>
+<!--<app-header></app-header>-->
+<!--<app-sidebar></app-sidebar>-->
+
+<!--<div class="page-content">-->
+<!--  <router-outlet></router-outlet>-->
+<!--</div>-->
+
+<!--<app-header (userChanged)="onUserChanged($event)"></app-header>-->
+<!--<app-sidebar [selectedUser]="selectedUser"></app-sidebar>-->
+
+<!--<div class="page-content">-->
+<!--  <router-outlet></router-outlet>-->
+<!--</div>-->
+
+
+<app-header (userChanged)="onUserChanged($event)"></app-header>
+<app-sidebar [selectedUser]="selectedUser"></app-sidebar>
 
 <div class="page-content">
   <router-outlet></router-outlet>
 </div>
-
