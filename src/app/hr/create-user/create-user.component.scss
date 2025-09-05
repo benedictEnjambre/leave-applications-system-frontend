@@ -15,18 +15,15 @@ $shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
 $border-radius: 8px;
 $border-radius-sm: 6px;
 
-// Form container
-.form-container {
-  max-width: 500px;
-  background-color: $background-white;
-  border-radius: $border-radius;
-  box-shadow: $shadow-md;
+// Main container - handles the overall page layout
+:host {
+  display: block;
   padding: 2rem;
-  margin: 2rem auto;
-  border: 1px solid $border-color;
+  min-height: 100%;
+  background: transparent;
 }
 
-// Form header
+// Form header - outside the form container
 .form-header {
   margin-bottom: 2rem;
   text-align: left;
@@ -45,6 +42,17 @@ $border-radius-sm: 6px;
     margin: 0;
     line-height: 1.4;
   }
+}
+
+// Form container
+.form-container {
+  max-width: 500px;
+  background-color: $background-white;
+  border-radius: $border-radius;
+  box-shadow: $shadow-md;
+  padding: 2rem;
+  border: 1px solid $border-color;
+  margin-bottom: 2rem; // Add space at bottom
 }
 
 // Form styles
@@ -199,8 +207,11 @@ $border-radius-sm: 6px;
 
 // Responsive design
 @media (max-width: 640px) {
+  :host {
+    padding: 1rem;
+  }
+
   .form-container {
-    margin: 1rem;
     padding: 1.5rem;
   }
 
