@@ -1,0 +1,32 @@
+<h2>My Leave Applications</h2>
+
+<div *ngIf="isLoading">Loading...</div>
+
+<table *ngIf="!isLoading && leaveApplications.length > 0" class="leave-table">
+  <thead>
+  <tr>
+    <th>ID</th>
+    <th>Start</th>
+    <th>End</th>
+    <th>Type</th>
+    <th>Status</th>
+    <th>Days</th>
+    <th>Remarks</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let leave of leaveApplications">
+    <td>{{ leave.id }}</td>
+    <td>{{ leave.startDate }}</td>
+    <td>{{ leave.endDate }}</td>
+    <td>{{ leave.leaveType }}</td>
+    <td>{{ leave.status }}</td>
+    <td>{{ leave.days }}</td>
+    <td>{{ leave.remarks }}</td>
+  </tr>
+  </tbody>
+</table>
+
+<div *ngIf="!isLoading && leaveApplications.length === 0">
+  <p>No leave applications found.</p>
+</div>
