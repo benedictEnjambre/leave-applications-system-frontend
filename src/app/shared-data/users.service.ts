@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class UsersService {
-  private URL = '/api/v1/user';
+  private URL = '/api/v1/users';
   constructor(private readonly http: HttpClient) {}
   getAllUsers(page: number = 1, max: number = 2): Observable<PaginatedUsers> {
     return this.http.get<PaginatedUsers>(`${this.URL}?max=${max}&page=${page}`);
