@@ -1,1 +1,80 @@
-<p>add-leave works!</p>
+<!-- Header (outside the box) -->
+<div class="form-header">
+  <h1 class="form-title">Apply for Leave</h1>
+  <p class="form-subtitle">Submit your leave request</p>
+</div>
+
+<!-- Container Box -->
+<div class="form-container">
+  <!-- Blue Balance Box -->
+  <div class="leave-balance">
+    Available Leave Balance: <strong>{{ availableLeave }} days</strong>
+  </div>
+
+  <!-- Leave Form -->
+  <form [formGroup]="leaveForm" (ngSubmit)="onSubmit()" class="leave-form">
+    <!-- Start & End Date Row -->
+    <div class="form-row">
+      <div class="form-group">
+        <label for="startDate" class="form-label">Start Date</label>
+        <input
+          id="startDate"
+          type="date"
+          formControlName="startDate"
+          class="form-input"
+          (change)="calculateTotalDays()"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="endDate" class="form-label">End Date</label>
+        <input
+          id="endDate"
+          type="date"
+          formControlName="endDate"
+          class="form-input"
+          (change)="calculateTotalDays()"
+        />
+      </div>
+    </div>
+
+    <!-- Total Days -->
+    <div class="form-group">
+      <label for="totalDays" class="form-label">Total Days</label>
+      <input
+        id="totalDays"
+        type="number"
+        formControlName="totalDays"
+        class="form-input"
+        readonly
+      />
+    </div>
+
+    <!-- Reason -->
+    <div class="form-group">
+      <label for="reason" class="form-label">Reason</label>
+      <textarea
+        id="reason"
+        formControlName="reason"
+        class="form-input"
+        placeholder="Please provide reason for leave"
+      ></textarea>
+    </div>
+
+    <!-- Submit Button -->
+    <div class="form-actions">
+      <button
+        type="submit"
+        class="btn-primary"
+        [disabled]="leaveForm.invalid || isSubmitting"
+      >
+        @if (isSubmitting) {
+          <span class="loading-spinner"></span>
+          Submitting Request...
+        } @else {
+          Submit Request
+        }
+      </button>
+    </div>
+  </form>
+</div>

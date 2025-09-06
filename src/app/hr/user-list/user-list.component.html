@@ -1,0 +1,54 @@
+<!-- Angular HTML Template -->
+<h2 class="page-title">
+  All Employees
+</h2>
+<p class="page-subtitle">Manage employee information and leave allocations</p>
+
+<div class="employees-container">
+  <div class="search-container">
+    <i class="fas fa-search search-icon"></i>
+    <input type="text" class="search-input" placeholder="Search employees..." ><!--[(ngModel)]="searchTerm"-->
+  </div>
+
+  <table class="employees-table">
+    <thead>
+    <tr>
+      <th>Employee ID</th>
+      <th>Name</th>
+      <th>Manager</th>
+      <th>Total Credits</th>
+      <th>Remaining Credits</th>
+      <th>Actions</th>
+    </tr>
+    </thead>
+
+    <tbody>
+      @for (user of users; track user.id) {
+        <tr>
+          <td><span class="employee-id">EMP{{ user.id.toString().padStart(3, '0') }}</span></td>
+          <td><span class="employee-name">{{ user.name }}</span></td>
+          <td><span class="manager-name">{{ user.managerName || 'N/A' }}</span></td>
+          <td><span class="leave-count">{{ user.totalCredits || 0 }}</span></td>
+          <td><span class="current-leaves">{{ user.remainingCredits || 0 }}</span></td>
+          <td class="actions-cell">
+            <button class="btn-edit" (click)="goToEdit(user.id)">
+              Edit
+            </button>
+          </td>
+        </tr>
+      }
+    </tbody>
+  </table>
+
+  <div class="pagination">
+    <button (click)="goToPage(currentPage - 1)" [disabled]="currentPage === 1">
+      Prev
+    </button>
+
+    <span>Page {{ currentPage }} of {{ totalPages }}</span>
+
+    <button (click)="goToPage(currentPage + 1)" [disabled]="currentPage === totalPages">
+      Next
+    </button>
+  </div>
+</div>
