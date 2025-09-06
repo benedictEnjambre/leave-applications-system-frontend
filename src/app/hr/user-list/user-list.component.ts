@@ -59,7 +59,7 @@ export class UsersListComponent implements OnInit {
   }
 
   goToEdit(id: number): void {
-    this.router.navigate(['/users/edit-user', id], {
+    this.router.navigate(['/hr/employee/edit', id], {
       state: { edited: true }
     });
   }
@@ -73,14 +73,4 @@ export class UsersListComponent implements OnInit {
   searchTerm(){
 
   }
-/*  deleteUser(id: number) {
-    this.usersService.deleteUser(id).subscribe({
-      next: () => {
-        this.showSuccessMsg = 'User successfully deleted';
-        this.successType = 'error';
-        this.loadUsers();
-      },
-      error: (err) => console.error('Delete failed', err)
-    });
-  }*/
 }

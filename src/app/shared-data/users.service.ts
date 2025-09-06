@@ -18,8 +18,7 @@ export class UsersService {
     return this.http.post<User>(this.URL, userRequestBody);
   }
   updateUser(id: number, updateBody: UserUpdateRequest): Observable<User> {
-    // matches Spring: @PutMapping("api/v1/user") + @RequestParam("id")
-    return this.http.put<User>(`${this.URL}?id=${id}`, updateBody);
+    return this.http.put<User>(`${this.URL}/${id}`, updateBody);
   }
   deleteUser(id: number) {
     return this.http.delete(`${this.URL}/${id}`);
