@@ -8,9 +8,8 @@ import {ManagerAddLeaveComponent} from './manager/add-leave/add-leave.component'
 import {EmployeeMyLeaveComponent} from './employee/my-leave/my-leave.component';
 import {ManagerViewEmployeeLeaveComponent} from './manager/view-employee-leave/employee-leave.component';
 
-import {UserComponent} from './user/user.component';
 import {UsersListComponent} from './hr/user-list/user-list.component';
-import {AddLeaveComponent} from './manager/add-leave/add-leave.component';
+
 
 
 export const routes: Routes = [
@@ -22,7 +21,6 @@ export const routes: Routes = [
       { path: 'employee/edit/:id', component: EditUserComponent }
     ]
   },
-  { path: '**', redirectTo: 'hr/employees' },
   {
     path: 'employee',
     children: [

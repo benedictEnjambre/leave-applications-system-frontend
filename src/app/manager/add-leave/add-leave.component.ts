@@ -10,7 +10,10 @@ import { NgIf } from '@angular/common';
   styleUrl: './add-leave.component.scss'
 })
 
-export class ManagerAddLeaveComponent {
+export class ManagerAddLeaveComponent implements OnInit{
+  protected leaveForm: FormGroup;
+  protected isSubmitting: boolean | undefined;
+  availableLeave: string | undefined;
 
 
   constructor(private fb: FormBuilder) {
