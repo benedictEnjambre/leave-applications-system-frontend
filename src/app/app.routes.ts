@@ -19,7 +19,7 @@ export const routes: Routes = [
     children: [
       {path:'employees',component:UsersListComponent},
       { path: 'create-employee', component: CreateUserComponent  },
-      { path: 'employee/:id/edit', component: EditUserComponent }
+      { path: 'employee/edit/:id', component: EditUserComponent }
     ]
   },
   { path: '**', redirectTo: 'hr/employees' },

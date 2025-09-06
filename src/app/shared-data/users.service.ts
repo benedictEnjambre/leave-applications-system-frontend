@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class UsersService {
-  private URL = '/api/v1/users';
+  private URL = '/api/v1/user';
   constructor(private readonly http: HttpClient) {}
   getAllUsers(page: number = 1, max: number = 2): Observable<PaginatedUsers> {
     return this.http.get<PaginatedUsers>(`${this.URL}s?max=${max}&page=${page}`);
@@ -18,8 +18,7 @@ export class UsersService {
     return this.http.post<User>(this.URL, userRequestBody);
   }
   updateUser(id: number, updateBody: UserUpdateRequest): Observable<User> {
-    // matches Spring: @PutMapping("api/v1/user") + @RequestParam("id")
-    return this.http.put<User>(`${this.URL}?id=${id}`, updateBody);
+    return this.http.put<User>(`${this.URL}/${id}`, updateBody);
   }
   deleteUser(id: number) {
     return this.http.delete(`${this.URL}/${id}`);

@@ -1,1 +1,11 @@
 /* You can add global styles to this file, and also import other style files */
+// Ensure no overflow issues
+* {
+  box-sizing: border-box;
+}
+
+// Remove any potential body/html overflow issues
+body {
+  margin: 0;
+  padding: 0;
+}
