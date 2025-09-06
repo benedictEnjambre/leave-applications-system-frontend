@@ -26,5 +26,10 @@ export class LeaveService {
     return this.http.patch(`${this.apiUrl}/${userId}/${leaveId}/reject`, {});
   }
 
+  cancelLeave(userId: number, leaveId: number) {
+    return this.http.patch(`${this.apiUrl}/${userId}/${leaveId}/cancel`, {});
+  }
+
+
 }
 
