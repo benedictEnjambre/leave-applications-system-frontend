@@ -1,14 +1,12 @@
-
-
 <header class="header">
   <div class="title">Leave Management System</div>
 
   <select
     class="user-dropdown"
-    [value]="selectedUser"
+    [value]="selectedUser?.id"
     (change)="onUserChanged($event)">
-    <option *ngFor="let user of users" [value]="user">
-      {{ user }}
+    <option *ngFor="let user of users" [value]="user.id">
+      {{ user.name }} ({{ user.role }})
     </option>
   </select>
 </header>

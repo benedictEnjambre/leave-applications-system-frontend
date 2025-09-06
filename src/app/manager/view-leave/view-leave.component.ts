@@ -7,6 +7,6 @@ import { Component } from '@angular/core';
   templateUrl: './view-leave.component.html',
   styleUrl: './view-leave.component.scss'
 })
-export class ViewLeaveComponent {
+export class ManagerViewLeaveComponent {
 
 }

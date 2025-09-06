@@ -1,45 +1,77 @@
-// import { Component } from '@angular/core';
-//
-// @Component({
-//   selector: 'app-sidebar',
-//   standalone: true,
-//   imports: [],
-//   templateUrl: './sidebar.component.html',
-//   styleUrls: ['./sidebar.component.scss']
-// })
-// export class SidebarComponent {
-//   activeItem: string = '';
-//
-//   setActive(item: string){
-//     this.activeItem = item;
-//   }
-// }
-
-import { Component, Input } from '@angular/core';
+import { Component, effect } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Router, RouterModule } from '@angular/router';
+import { User } from '../../shared-data/paginated-users';
+import { CurrentUserService } from '../../shared-data/currentUserService';
+
+interface MenuItem {
+  label: string;
+  children?: { label: string; route: string }[];
+}
 
 @Component({
   selector: 'app-sidebar',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterModule],
   templateUrl: './sidebar.component.html',
   styleUrls: ['./sidebar.component.scss']
 })
 export class SidebarComponent {
+  menuItems: MenuItem[] = [];
   activeItem: string = '';
-  menuItems: string[] = [];
 
-  @Input() set selectedUser(user: string) {
-    if (user === 'Admin') {
-      this.menuItems = ['Employees', 'Add New', 'Leaves'];
-    } else if (user === 'Manager') {
-      this.menuItems = ['Leaves', 'Apply', 'My Leaves'];
-    } else if (user === 'Member') {
-      this.menuItems = ['Apply', 'My Leaves'];
+  constructor(
+    public currentUserService: CurrentUserService,
+    private router: Router
+  ) {
+    effect(() => {
+      const user = this.currentUserService.currentUser();
+      this.menuItems = this.buildMenu(user);
+
+      // 👇 if there’s at least one menu with children, set the first one active
+      const firstChild = this.menuItems[0]?.children?.[0];
+      if (firstChild) {
+        this.activeItem = firstChild.label;
+        this.router.navigate([firstChild.route]); // navigate automatically
+      }
+    });
+  }
+
+  private buildMenu(user?: User): MenuItem[] {
+    if (!user) return [];
+    switch ((user.role ?? '').toUpperCase()) {
+      case 'HR':
+        return [
+          { label: 'Employees', children: [
+              { label: 'View All', route: '/hr/employees' },
+              { label: 'Add New', route: '/hr/create-employee' },
+            ]},
+          { label: 'Leaves', children: [
+              { label: 'View All', route: '/hr/leaves' },
+            ]},
+        ];
+      case 'MANAGER':
+        return [
+          { label: 'Leaves', children: [
+              { label: 'Apply', route: '/manager/add-leave' },
+              { label: 'My Leaves', route: '/manager/my-leave' },
+              { label: 'View All', route: '/manager/view-leave' },
+            ]},
+        ];
+      case 'EMPLOYEE':
+        return [
+          { label: 'Leaves', children: [
+              { label: 'Apply', route: '/employee/add-leave' },
+              { label: 'My Leaves', route: '/employee/my-leave' },
+            ]},
+        ];
+      default:
+        return [];
     }
   }
 
-  setActive(item: string) {
-    this.activeItem = item;
+  setActive(item: { label: string; route: string }) {
+    this.activeItem = item.label;
+    this.router.navigate([item.route]);
   }
 }

@@ -7,6 +7,6 @@ import { Component } from '@angular/core';
   templateUrl: './employee-leave.component.html',
   styleUrl: './employee-leave.component.scss'
 })
-export class ViewEmployeeLeaveComponent {
+export class ManagerViewEmployeeLeaveComponent {
 
 }

@@ -1,9 +1,9 @@
-<app-header (userChanged)="onUserChanged($event)"></app-header>
+<app-header></app-header> <!-- no need to pass userChanged -->
 
 <div class="layout">
-  <app-sidebar [selectedUser]="selectedUser"></app-sidebar>
+  <app-sidebar></app-sidebar> <!-- sidebar reads the signal directly -->
 
   <main class="page-content">
-      <router-outlet></router-outlet>
+    <router-outlet></router-outlet>
   </main>
 </div>
