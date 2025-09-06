@@ -1,27 +1,60 @@
 .sidebar {
-  background-color: #f7f9fc;
   width: 220px;
   padding: 1rem;
-  height: calc(100vh - 56px);
+  font-family: 'Segoe UI', sans-serif;
 
-  ul{
+  .user-info {
+    margin-bottom: 1rem;
+
+    p {
+      margin: 0;
+      font-size: 0.9rem;
+      color: #333;
+    }
+
+    p:first-child {
+      font-weight: 600;
+      font-size: 1rem;
+    }
+  }
+
+  ul {
     list-style: none;
     padding: 0;
+    margin: 0;
 
-    li{
-      padding: 0.9rem 1rem;
-      cursor: pointer;
-      font-size: 0.95rem;
-      border-radius: 4px;
-      margin-bottom: 0.7rem;
-      user-select: none;
-      color: #333;
+    > li {
+      margin-bottom: 0.5rem;
 
-      &.active,
-      &:hover {
-        background-color: #e1e4ea;
+      > span,
+      > div {
         font-weight: 600;
-        color: #000;
+        font-size: 0.95rem;
+        color: #444;
+        display: block;
+        margin-bottom: 0.25rem;
+      }
+
+      ul {
+        margin-left: 1rem;
+
+        li {
+          padding: 0.35rem 0.5rem;
+          border-radius: 4px;
+          cursor: pointer;
+          font-size: 0.9rem;
+          color: #555;
+          transition: color 0.2s, background 0.2s;
+
+          &:hover {
+            color: #000;
+          }
+
+          &.active {
+            color: #1976d2; // nice blue for active
+            font-weight: 600;
+          }
+        }
       }
     }
   }

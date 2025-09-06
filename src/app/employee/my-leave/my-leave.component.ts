@@ -1,47 +1,49 @@
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { LeaveApplicationService } from '../../shared-data/leave-application-service';
+import { HttpClient } from '@angular/common/http';
 import { LeaveApplication, PaginatedLeaveApplication } from '../../shared-data/paginated-leave-application';
+import { CurrentUserService } from '../../shared-data/currentUserService';
+import {LeaveService} from '../../shared-data/leaveapplication.service';
 
 @Component({
   selector: 'app-my-leave',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule],
   templateUrl: './my-leave.component.html',
   styleUrls: ['./my-leave.component.scss']
 })
-export class MyLeaveComponent implements OnChanges {
-  @Input() userId!: number;
-
-  leaveApplications: LeaveApplication[] = [];
-  totalPages = 0;
+export class EmployeeMyLeaveComponent implements OnInit {
+  leaves: LeaveApplication[] = [];   // ✅ now defined
   currentPage = 1;
   itemsPerPage = 5;
-  isLoading = false;
+  totalPages = 0;
+  loading = false;
 
-  constructor(private readonly leaveApplicationService: LeaveApplicationService) {}
+  constructor(
+    private currentUserService: CurrentUserService,
+    private readonly leaveService: LeaveService
+  ) {}
 
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes['userId'] && this.userId) {
-      this.currentPage = 1; // reset when switching user
-      this.loadLeaveApplications();
+  ngOnInit() {
+    const user = this.currentUserService.currentUser();
+    if (user) {
+      this.loadLeaves(user.id);
     }
   }
 
-  loadLeaveApplications(): void {
-    this.isLoading = true;
-
-    this.leaveApplicationService.getMyLeaves(this.userId, this.currentPage, this.itemsPerPage)
+  loadLeaves(userId: number) {
+    this.loading = true;
+    this.leaveService.fetchMyLeaves(userId, this.currentPage, this.itemsPerPage)
       .subscribe({
-        next: (response: PaginatedLeaveApplication) => {
-          this.leaveApplications = response.content;
+        next: (response) => {
+          this.leaves = response.content;
           this.totalPages = Math.ceil(response.totalCount / this.itemsPerPage);
           this.currentPage = response.pageNumber;
-          this.isLoading = false;
+          this.loading = false;
         },
-        error: () => {
-          this.isLoading = false;
+        error: (err) => {
+          console.error('Failed to fetch leaves:', err);
+          this.loading = false;
         }
       });
   }

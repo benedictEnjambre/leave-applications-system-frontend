@@ -1,27 +1,8 @@
-// import { Component } from '@angular/core';
-// import { CommonModule } from '@angular/common';
-//
-// @Component({
-//   selector: 'app-header',
-//   standalone: true,
-//   imports: [CommonModule],
-//   templateUrl: './header.component.html',
-//   styleUrls: ['./header.component.scss']
-// })
-// export class HeaderComponent {
-//   users = ['Dexter S (Admin)', 'Sarah J (Manager)', 'David R (Member)',];
-//   selectedUser = this.users[0];
-//
-//   onUserChanged(event: Event) {
-//     const target = event.target as HTMLSelectElement;
-//     this.selectedUser = target.value;
-//     console.log('Selected user:', this.selectedUser);
-//   }
-// }
-
-
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { UsersService } from '../../shared-data/users.service';
+import { User } from '../../shared-data/paginated-users';
+import {CurrentUserService} from '../../shared-data/currentUserService';
 
 @Component({
   selector: 'app-header',
@@ -30,16 +11,32 @@ import { CommonModule } from '@angular/common';
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss']
 })
-export class HeaderComponent {
-  users: string[] = ['Admin', 'Manager', 'Member'];
-  selectedUser: string = 'Admin';
+export class HeaderComponent implements OnInit {
+  users: User[] = [];
+  selectedUser?: User;
 
-  @Output() userChanged = new EventEmitter<string>();
+  constructor(
+    private usersService: UsersService,
+    private currentUserService: CurrentUserService
+  ) {}
+
+  ngOnInit() {
+    this.usersService.getAllUsers(1, 10).subscribe(response => {
+      this.users = response.content;
+      if (this.users.length > 0) {
+        this.selectedUser = this.users[0];
+        this.currentUserService.setCurrentUser(this.selectedUser); // update signal
+      }
+    });
+  }
 
   onUserChanged(event: Event) {
     const target = event.target as HTMLSelectElement;
-    const selected = target.value;
-    this.selectedUser = selected;
-    this.userChanged.emit(selected);
+    const selectedId = Number(target.value);
+    this.selectedUser = this.users.find(user => user.id === selectedId);
+    if (this.selectedUser) {
+      console.log('Selected user object:', this.selectedUser);
+      this.currentUserService.setCurrentUser(this.selectedUser); // update signal
+    }
   }
 }
