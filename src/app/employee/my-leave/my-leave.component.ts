@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { LeaveApplication, PaginatedLeaveApplication } from '../../shared-data/paginated-leave-application';
 import { CurrentUserService } from '../../shared-data/currentUserService';
+import {LeaveService} from '../../shared-data/leaveapplication.service';
 
 @Component({
   selector: 'app-my-leave',
@@ -13,12 +14,14 @@ import { CurrentUserService } from '../../shared-data/currentUserService';
 })
 export class EmployeeMyLeaveComponent implements OnInit {
   leaves: LeaveApplication[] = [];   // ✅ now defined
-  totalCount = 0;
+  currentPage = 1;
+  itemsPerPage = 5;
+  totalPages = 0;
   loading = false;
 
   constructor(
-    private http: HttpClient,
-    private currentUserService: CurrentUserService
+    private currentUserService: CurrentUserService,
+    private readonly leaveService: LeaveService
   ) {}
 
   ngOnInit() {
@@ -28,20 +31,20 @@ export class EmployeeMyLeaveComponent implements OnInit {
     }
   }
 
-  loadLeaves(userId: number, page: number = 1, max: number = 5) {
+  loadLeaves(userId: number) {
     this.loading = true;
-    this.http.get<PaginatedLeaveApplication>(
-      `/api/v1/leave-application/${userId}/me?page=${page}&max=${max}`
-    ).subscribe({
-      next: (response) => {
-        this.leaves = response.content;
-        this.totalCount = response.totalCount;
-        this.loading = false;
-      },
-      error: (err) => {
-        console.error('Failed to fetch leaves:', err);
-        this.loading = false;
-      }
-    });
+    this.leaveService.fetchMyLeaves(userId, this.currentPage, this.itemsPerPage)
+      .subscribe({
+        next: (response) => {
+          this.leaves = response.content;
+          this.totalPages = Math.ceil(response.totalCount / this.itemsPerPage);
+          this.currentPage = response.pageNumber;
+          this.loading = false;
+        },
+        error: (err) => {
+          console.error('Failed to fetch leaves:', err);
+          this.loading = false;
+        }
+      });
   }
 }

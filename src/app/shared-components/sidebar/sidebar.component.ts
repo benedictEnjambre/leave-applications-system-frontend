@@ -54,8 +54,8 @@ export class SidebarComponent {
         return [
           { label: 'Leaves', children: [
               { label: 'Apply', route: '/manager/add-leave' },
-              { label: 'My Leaves', route: '/manager/my-leave' },
-              { label: 'View All', route: '/manager/view-leave' },
+              { label: 'My Leaves', route: '/manager/view-leave' },
+              { label: 'View All', route: '/manager/view-employee-leave' },
             ]},
         ];
       case 'EMPLOYEE':

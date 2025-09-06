@@ -7,11 +7,15 @@ import { PaginatedLeaveApplication } from './paginated-leave-application';
 export class LeaveService {
   private apiUrl = '/api/v1/leave-application';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) {
+  }
 
   fetchMyLeaves(userId: number, page = 1, max = 5): Observable<PaginatedLeaveApplication> {
-    return this.http.get<PaginatedLeaveApplication>(
-      `${this.apiUrl}/${userId}/me?page=${page}&max=${max}`
-    );
+    return this.http.get<PaginatedLeaveApplication>(`${this.apiUrl}/${userId}/me?page=${page}&max=${max}`);
+  }
+
+  fetchTeamLeaves(userId: number, page = 1, max = 5): Observable<PaginatedLeaveApplication> {
+    return this.http.get<PaginatedLeaveApplication>(`${this.apiUrl}/${userId}/team?page=${page}&max=${max}`);
   }
 }
+
