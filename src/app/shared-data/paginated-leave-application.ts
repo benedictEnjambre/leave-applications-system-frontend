@@ -11,9 +11,10 @@ export interface LeaveApplication {
   status: string;
   days: number;
   remarks: string;
+  availableCredits: number;
 }
 
-export interface UserRequestBody {
+export interface LeaveApplicationRequestBody {
   startDate: string;
   endDate: string;
   remarks: string;

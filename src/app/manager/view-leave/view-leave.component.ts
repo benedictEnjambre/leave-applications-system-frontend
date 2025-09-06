@@ -15,7 +15,7 @@ import {LeaveService} from '../../shared-data/leaveapplication.service';
   styleUrl: './view-leave.component.scss'
 })
 export class ManagerViewLeaveComponent implements OnInit{
-  leaves: LeaveApplication[] = [];   // ✅ now defined
+  leaves: LeaveApplication[] = [];
   currentPage = 1;
   itemsPerPage = 5;
   totalPages = 0;

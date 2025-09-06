@@ -22,7 +22,7 @@
           type="date"
           formControlName="startDate"
           class="form-input"
-          (change)="calculateTotalDays()"
+          (change)='availableLeave'
         />
       </div>
 
@@ -33,7 +33,7 @@
           type="date"
           formControlName="endDate"
           class="form-input"
-          (change)="calculateTotalDays()"
+          (change)='availableLeave'
         />
       </div>
     </div>
@@ -52,10 +52,10 @@
 
     <!-- Reason -->
     <div class="form-group">
-      <label for="reason" class="form-label">Reason</label>
+      <label for="remarks" class="form-label">Reason</label>
       <textarea
-        id="reason"
-        formControlName="reason"
+        id="remarks"
+        formControlName="remarks"
         class="form-input"
         placeholder="Please provide reason for leave"
       ></textarea>

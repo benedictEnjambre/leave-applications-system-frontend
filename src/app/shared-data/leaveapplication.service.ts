@@ -1,13 +1,17 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { PaginatedLeaveApplication } from './paginated-leave-application';
+import {LeaveApplicationRequestBody, PaginatedLeaveApplication} from './paginated-leave-application';
 
 @Injectable({ providedIn: 'root' })
 export class LeaveService {
   private apiUrl = '/api/v1/leave-application';
 
   constructor(private http: HttpClient) {
+  }
+
+  applyLeave(userId: number, request: LeaveApplicationRequestBody): Observable<PaginatedLeaveApplication> {
+    return this.http.post<PaginatedLeaveApplication>(`${this.apiUrl}/${userId}`, request);
   }
 
   fetchMyLeaves(userId: number, page = 1, max = 5): Observable<PaginatedLeaveApplication> {
