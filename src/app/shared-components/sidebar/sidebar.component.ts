@@ -43,11 +43,11 @@ export class SidebarComponent {
       case 'HR':
         return [
           { label: 'Employees', children: [
-              { label: 'View All', route: '/hr/employees' },
-              { label: 'Add New', route: '/hr/create-employee' },
+              { label: 'View All Employees', route: '/hr/employees' },
+              { label: 'Add New Employee', route: '/hr/create-employee' },
             ]},
           { label: 'Leaves', children: [
-              { label: 'View All', route: '/hr/leaves' },
+              { label: 'View All Leave', route: '/hr/view-all-leave' },
             ]},
         ];
       case 'MANAGER':
