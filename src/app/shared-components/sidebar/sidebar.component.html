@@ -1,10 +1,20 @@
-
 <aside class="sidebar">
+  <div class="user-info" *ngIf="currentUserService.currentUser() as selectedUser">
+    <p>{{ selectedUser.name }}</p>
+    <p>{{ selectedUser.role }}</p>
+  </div>
+
   <ul>
-    <li *ngFor="let item of menuItems"
-        [class.active]="activeItem === item"
-        (click)="setActive(item)">
-      {{ item }}
+    <li *ngFor="let item of menuItems">
+      {{ item.label }}
+      <ul *ngIf="item.children?.length">
+        <li *ngFor="let child of item.children"
+            [class.active]="activeItem === child.label"
+            (click)="setActive(child)">
+          {{ child.label }}
+        </li>
+      </ul>
     </li>
   </ul>
 </aside>
+

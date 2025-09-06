@@ -9,7 +9,7 @@ export class UsersService {
   private URL = '/api/v1/users';
   constructor(private readonly http: HttpClient) {}
   getAllUsers(page: number = 1, max: number = 2): Observable<PaginatedUsers> {
-    return this.http.get<PaginatedUsers>(`${this.URL}?max=${max}&page=${page}`);
+    return this.http.get<PaginatedUsers>(`${this.URL}s?max=${max}&page=${page}`);
   }
   getUserById(id: number): Observable<User> {
     return this.http.get<User>(`${this.URL}/${id}`);

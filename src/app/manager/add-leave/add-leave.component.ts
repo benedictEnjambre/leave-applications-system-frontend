@@ -3,16 +3,15 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { NgIf } from '@angular/common';
 
 @Component({
-  selector: 'app-add-leave',
+  selector: 'app-manager-add-leave',
   standalone: true,
   imports: [ReactiveFormsModule, NgIf],
   templateUrl: './add-leave.component.html',
   styleUrl: './add-leave.component.scss'
 })
-export class AddLeaveComponent implements OnInit {
-  leaveForm: FormGroup;
-  isSubmitting = false;
-  availableLeave = 18; //manual for now
+
+export class ManagerAddLeaveComponent {
+
 
   constructor(private fb: FormBuilder) {
     this.leaveForm = this.createForm();
