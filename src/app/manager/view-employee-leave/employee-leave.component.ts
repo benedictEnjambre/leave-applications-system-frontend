@@ -49,4 +49,25 @@ export class ManagerViewEmployeeLeaveComponent implements OnInit{
         }
       });
   }
+
+  approve(leaveId: number) {
+    const user = this.currentUserService.currentUser();
+    if (!user) return;
+
+    this.leaveService.approveLeave(user.id, leaveId).subscribe({
+      next: () => this.loadTeamLeaves(user.id),
+      error: (err: any) => console.error('Failed to approve leave:', err)
+    });
+  }
+
+  reject(leaveId: number) {
+    const user = this.currentUserService.currentUser();
+    if (!user) return;
+
+    this.leaveService.rejectLeave(user.id, leaveId).subscribe({
+      next: () => this.loadTeamLeaves(user.id),
+      error: (err: any) => console.error('Failed to reject leave:', err)
+    });
+  }
+
 }

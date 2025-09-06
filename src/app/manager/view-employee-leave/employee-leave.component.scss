@@ -36,6 +36,43 @@ table {
       padding: 0.75rem;
       color: #444;
     }
+
+    .actions {
+      display: flex;
+      gap: 0.5rem;
+
+      button {
+        padding: 0.4rem 0.8rem;
+        font-size: 0.85rem;
+        font-weight: 500;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.2s ease, transform 0.1s ease;
+
+        &:hover {
+          transform: translateY(-1px);
+        }
+
+        &.approve {
+          background-color: #28a745;
+          color: #fff;
+
+          &:hover {
+            background-color: #218838;
+          }
+        }
+
+        &.reject {
+          background-color: #dc3545;
+          color: #fff;
+
+          &:hover {
+            background-color: #c82333;
+          }
+        }
+      }
+    }
   }
 }
 

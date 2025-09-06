@@ -17,5 +17,14 @@ export class LeaveService {
   fetchTeamLeaves(userId: number, page = 1, max = 5): Observable<PaginatedLeaveApplication> {
     return this.http.get<PaginatedLeaveApplication>(`${this.apiUrl}/${userId}/team?page=${page}&max=${max}`);
   }
+
+  approveLeave(userId: number, leaveId: number) {
+    return this.http.patch(`${this.apiUrl}/${userId}/${leaveId}/approve`, {});
+  }
+
+  rejectLeave(userId: number, leaveId: number) {
+    return this.http.patch(`${this.apiUrl}/${userId}/${leaveId}/reject`, {});
+  }
+
 }
 
