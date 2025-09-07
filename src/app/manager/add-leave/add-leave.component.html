@@ -1,19 +1,14 @@
-<!-- Header (outside the box) -->
 <div class="form-header">
   <h1 class="form-title">Apply for Leave</h1>
   <p class="form-subtitle">Submit your leave request</p>
 </div>
 
-<!-- Container Box -->
 <div class="form-container">
-  <!-- Blue Balance Box -->
   <div class="leave-balance">
     Available Leave Balance: <strong>{{ availableLeave }} days</strong>
   </div>
 
-  <!-- Leave Form -->
-  <form [formGroup]="leaveForm" (ngSubmit)="onSubmit()" class="leave-form">
-    <!-- Start & End Date Row -->
+  <form [formGroup]="leaveForm" (ngSubmit)="saveLeaveApplication()" class="leave-form">
     <div class="form-row">
       <div class="form-group">
         <label for="startDate" class="form-label">Start Date</label>
@@ -22,7 +17,6 @@
           type="date"
           formControlName="startDate"
           class="form-input"
-          (change)='availableLeave'
         />
       </div>
 
@@ -33,12 +27,10 @@
           type="date"
           formControlName="endDate"
           class="form-input"
-          (change)='availableLeave'
         />
       </div>
     </div>
 
-    <!-- Total Days -->
     <div class="form-group">
       <label for="totalDays" class="form-label">Total Days</label>
       <input
@@ -50,7 +42,6 @@
       />
     </div>
 
-    <!-- Reason -->
     <div class="form-group">
       <label for="remarks" class="form-label">Reason</label>
       <textarea
@@ -61,7 +52,6 @@
       ></textarea>
     </div>
 
-    <!-- Submit Button -->
     <div class="form-actions">
       <button
         type="submit"

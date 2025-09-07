@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { NgIf } from '@angular/common';
+import {Component, OnInit} from '@angular/core';
 import { Router } from '@angular/router';
+import { ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 import { LeaveService } from '../../shared-data/leaveapplication.service';
 import { CurrentUserService } from '../../shared-data/currentUserService';
 import { PaginatedLeaveApplication } from '../../shared-data/paginated-leave-application';
@@ -9,69 +9,58 @@ import { PaginatedLeaveApplication } from '../../shared-data/paginated-leave-app
 @Component({
   selector: 'app-manager-add-leave',
   standalone: true,
-  imports: [ReactiveFormsModule, NgIf],
+  imports: [ReactiveFormsModule, CommonModule],
   templateUrl: './add-leave.component.html',
   styleUrls: ['./add-leave.component.scss']
 })
-export class ManagerAddLeaveComponent implements OnInit {
+export class ManagerAddLeaveComponent implements OnInit{
   leaveForm: FormGroup;
   isSubmitting = false;
   availableLeave = 0;
 
   constructor(
-    private fb: FormBuilder,
-    private leaveService: LeaveService,
-    private currentUserService: CurrentUserService,
-    private router: Router
+    private readonly router: Router,
+    private readonly leaveService: LeaveService,
+    private readonly currentUserService: CurrentUserService
   ) {
-    this.leaveForm = this.createForm();
-  }
+    const user = this.currentUserService.getCurrentUser();
+    this.availableLeave = user?.remainingCredits ?? 0;
 
-  ngOnInit(): void {
-    const user = this.currentUserService.currentUser();
-    if (user) {
-      this.availableLeave = user.remainingCredits;
-    }
-
-    // Automatically calculate totalDays when startDate or endDate changes
-    this.leaveForm.get('startDate')?.valueChanges.subscribe(() => this.calculateTotalDays());
-    this.leaveForm.get('endDate')?.valueChanges.subscribe(() => this.calculateTotalDays());
-  }
-
-  private createForm(): FormGroup {
-    return this.fb.group({
-      startDate: ['', Validators.required],
-      endDate: ['', Validators.required],
-      totalDays: [{ value: 0, disabled: true }, [Validators.required, Validators.min(1)]],
-      remarks: ['', [Validators.required, Validators.minLength(5)]]
+    this.leaveForm = new FormGroup({
+      startDate: new FormControl('', Validators.required),
+      endDate: new FormControl('', Validators.required),
+      totalDays: new FormControl(0, Validators.required),
+      remarks: new FormControl('', [Validators.required, Validators.minLength(5)])
     });
   }
 
-  private calculateTotalDays(): void {
-    const startValue = this.leaveForm.get('startDate')?.value;
-    const endValue = this.leaveForm.get('endDate')?.value;
+  ngOnInit() {
+    this.leaveForm.get('startDate')?.valueChanges.subscribe(() => this.calculateTotalDays());
+    this.leaveForm.get('endDate')?.valueChanges.subscribe(() => this.calculateTotalDays());
 
-    if (!startValue || !endValue) {
+    const user = this.currentUserService.getCurrentUser();
+    this.availableLeave = user?.remainingCredits ?? 0;
+  }
+
+  calculateTotalDays() {
+    const start = this.leaveForm.get('startDate')?.value;
+    const end = this.leaveForm.get('endDate')?.value;
+
+    if (!start || !end) {
       this.leaveForm.get('totalDays')?.setValue(0);
       return;
     }
 
-    const start = new Date(startValue);
-    const end = new Date(endValue);
+    const startDate = new Date(start);
+    const endDate = new Date(end);
 
-    // Normalize to midnight to avoid timezone issues
-    const startDate = new Date(start.getFullYear(), start.getMonth(), start.getDate());
-    const endDate = new Date(end.getFullYear(), end.getMonth(), end.getDate());
+    const diff =
+      Math.floor((endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24)) + 1;
 
-    let diff = Math.ceil((endDate.getTime() - startDate.getTime()) / (1000 * 3600 * 24)) + 1;
-    diff = diff > 0 ? diff : 0;
-
-    this.leaveForm.get('totalDays')?.setValue(diff);
+    this.leaveForm.get('totalDays')?.setValue(diff > 0 ? diff : 0);
   }
 
-  onSubmit(): void {
-    this.calculateTotalDays(); // ensure totalDays is up-to-date
-
+  saveLeaveApplication() {
     if (this.leaveForm.valid) {
       const totalDays = this.leaveForm.get('totalDays')?.value;
       if (totalDays > this.availableLeave) {
@@ -80,40 +69,31 @@ export class ManagerAddLeaveComponent implements OnInit {
       }
 
       this.isSubmitting = true;
-      const leaveData = this.leaveForm.getRawValue();
-      const user = this.currentUserService.currentUser();
+      const requestBody = this.leaveForm.getRawValue();
+      const user = this.currentUserService.getCurrentUser();
 
       if (user) {
-        this.leaveService.applyLeave(user.id, leaveData).subscribe({
+        this.leaveService.applyLeave(user.id, requestBody).subscribe({
           next: (response: PaginatedLeaveApplication) => {
             console.log('Leave request submitted:', response);
-            this.isSubmitting = false;
             alert('Leave request submitted successfully!');
 
-            const totalDays = this.leaveForm.get('totalDays')?.value || 0;
+            // update available leave immediately in UI
             this.availableLeave = Math.max(this.availableLeave - totalDays, 0);
 
-            // Optionally reset the form for new submission
+            // reset form
             this.leaveForm.reset({ totalDays: 0 });
-
             this.router.navigate(['manager/add-leave']);
           },
           error: (err) => {
             console.error('Failed to submit leave request:', err);
-            this.isSubmitting = false;
             alert('Failed to submit leave request.');
+          },
+          complete: () => {
+            this.isSubmitting = false;
           }
         });
       }
-    } else {
-      this.markFormGroupTouched();
     }
-  }
-
-  private markFormGroupTouched(): void {
-    Object.keys(this.leaveForm.controls).forEach(key => {
-      const control = this.leaveForm.get(key);
-      control?.markAsTouched();
-    });
   }
 }
