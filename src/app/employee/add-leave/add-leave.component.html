@@ -1,1 +1,70 @@
-<p>add-leave works!</p>
+<div class="form-header">
+  <h1 class="form-title">Apply for Leave</h1>
+  <p class="form-subtitle">Submit your leave request</p>
+</div>
+
+<div class="form-container">
+  <div class="leave-balance">
+    Available Leave Balance: <strong>{{ availableLeave }} days</strong>
+  </div>
+
+  <form [formGroup]="leaveForm" (ngSubmit)="saveLeaveApplication()" class="leave-form">
+    <div class="form-row">
+      <div class="form-group">
+        <label for="startDate" class="form-label">Start Date</label>
+        <input
+          id="startDate"
+          type="date"
+          formControlName="startDate"
+          class="form-input"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="endDate" class="form-label">End Date</label>
+        <input
+          id="endDate"
+          type="date"
+          formControlName="endDate"
+          class="form-input"
+        />
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="totalDays" class="form-label">Total Days</label>
+      <input
+        id="totalDays"
+        type="number"
+        formControlName="totalDays"
+        class="form-input"
+        readonly
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="remarks" class="form-label">Reason</label>
+      <textarea
+        id="remarks"
+        formControlName="remarks"
+        class="form-input"
+        placeholder="Please provide reason for leave"
+      ></textarea>
+    </div>
+
+    <div class="form-actions">
+      <button
+        type="submit"
+        class="btn-primary"
+        [disabled]="leaveForm.invalid || isSubmitting"
+      >
+        @if (isSubmitting) {
+          <span class="loading-spinner"></span>
+          Submitting Request...
+        } @else {
+          Submit Request
+        }
+      </button>
+    </div>
+  </form>
+</div>

@@ -58,7 +58,10 @@ export class ManagerViewEmployeeLeaveComponent implements OnInit{
     if (!user) return;
 
     this.leaveService.approveLeave(user.id, leaveId).subscribe({
-      next: () => this.loadTeamLeaves(user.id),
+      next: () => {
+        this.loadTeamLeaves(user.id)
+        this.router.navigate(['manager/view-employee-leave']);
+      },
       error: (err: any) => console.error('Failed to approve leave:', err)
     });
   }
