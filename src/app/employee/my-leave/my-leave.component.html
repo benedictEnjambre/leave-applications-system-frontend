@@ -11,6 +11,7 @@
     <th>Status</th>
     <th>Days</th>
     <th>Remarks</th>
+    <th>Actions</th>
   </tr>
   </thead>
   <tbody>
@@ -21,6 +22,10 @@
     <td>{{ leave.status }}</td>
     <td>{{ leave.days }}</td>
     <td>{{ leave.remarks }}</td>
+    <td>
+      <button (click)="cancel(leave.id)" [disabled]="leave.status !== 'PENDING'" class="btn-cancel"> Cancel
+      </button>
+    </td>
   </tr>
   </tbody>
 </table>
