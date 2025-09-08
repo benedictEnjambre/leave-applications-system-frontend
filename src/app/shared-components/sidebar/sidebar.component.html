@@ -1,11 +1,12 @@
 <aside class="sidebar">
   <div class="user-info" *ngIf="currentUserService.currentUser() as selectedUser">
-    <p>{{ selectedUser.name }}</p>
-    <p>{{ selectedUser.role }}</p>
+<!--    <p>{{ selectedUser.name }}</p>-->
+<!--    <p>{{ selectedUser.role }}</p>-->
   </div>
 
-  <ul>
-    <li *ngFor="let item of menuItems">
+  <ul class="menu">
+
+    <ng-container *ngFor="let item of menuItems">
       {{ item.label }}
       <ul *ngIf="item.children?.length">
         <li *ngFor="let child of item.children"
@@ -14,7 +15,7 @@
           {{ child.label }}
         </li>
       </ul>
-    </li>
+    </ng-container>
   </ul>
 </aside>
 

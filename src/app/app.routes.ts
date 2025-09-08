@@ -9,7 +9,11 @@ import {EmployeeMyLeaveComponent} from './employee/my-leave/my-leave.component';
 import {ManagerViewEmployeeLeaveComponent} from './manager/view-employee-leave/employee-leave.component';
 
 import {UsersListComponent} from './hr/user-list/user-list.component';
+
 import {HomeComponent} from './home/home.component';
+
+import {HRViewAllLeavesComponent} from './hr/view-all-leaves/view-all-leaves.component';
+
 
 
 
@@ -18,9 +22,10 @@ export const routes: Routes = [
   {
     path: 'hr',
     children: [
-      {path:'employees',component:UsersListComponent},
+      { path:'employees',component:UsersListComponent},
       { path: 'create-employee', component: CreateUserComponent  },
-      { path: 'employee/edit/:id', component: EditUserComponent }
+      { path: 'employee/edit/:id', component: EditUserComponent },
+      { path: 'view-all-leave', component: HRViewAllLeavesComponent}
     ]
   },
   {

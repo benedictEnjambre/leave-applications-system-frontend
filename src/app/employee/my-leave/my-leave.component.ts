@@ -47,4 +47,14 @@ export class EmployeeMyLeaveComponent implements OnInit {
         }
       });
   }
+
+  cancel(leaveId: number) {
+    const user = this.currentUserService.currentUser();
+    if (!user) return;
+
+    this.leaveService.cancelLeave(user.id, leaveId).subscribe({
+      next: () => this.loadLeaves(user.id),
+      error: (err: any) => console.error('Failed to cancel leave:', err)
+    });
+  }
 }

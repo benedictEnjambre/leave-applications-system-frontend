@@ -1,19 +1,28 @@
 // Employee Management SCSS
+
+.page-header {
+  margin-bottom: 2rem;
+  padding: 2rem 2rem 0 2rem;
+  text-align: left;
+}
 .page-title {
   font-family: 'Inter', sans-serif;
   font-size: 1.75rem;
   font-weight: 600;
-  margin: 0;
+  margin: 0 0 0.5rem 0;
   padding: 2rem 0 0.5rem 0;
   color: #2c3e50;
   letter-spacing: -0.02em;
+  line-height: 1.2;
 }
 
 .page-subtitle {
   color: #6c757d;
   font-size: 1rem;
   font-weight: 400;
-  margin-bottom: 2rem;
+
+  margin: 0 0 2rem 0;
+  line-height: 1.4;
 }
 
 .employees-container {
@@ -61,6 +70,7 @@
   overflow: hidden;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   border: 1px solid #e9ecef;
+  padding: 2rem;
   border-collapse: collapse;
 
   th,
@@ -221,3 +231,20 @@
     padding: 1.5rem 0 0.5rem 0;
   }
 }
+//.page-header {
+//  margin: 20px 0 30px 0; /* space from header/sidebar */
+//  padding-left: 10px;    /* small left padding to align with table/search */
+//}
+//
+//.page-title {
+//  font-size: 24px;
+//  font-weight: 600;
+//  margin: 0;             /* remove default margins so spacing is consistent */
+//  color: #2c3e50;        /* nice dark text */
+//}
+//
+//.page-subtitle {
+//  font-size: 14px;
+//  color: #7f8c8d;
+//  margin-top: 4px;       /* space below title */
+//}
