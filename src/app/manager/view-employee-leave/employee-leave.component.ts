@@ -18,7 +18,7 @@ import {Router} from '@angular/router';
 export class ManagerViewEmployeeLeaveComponent implements OnInit{
   leaves: LeaveApplication[] = [];
   currentPage = 1;
-  itemsPerPage = 5;
+  itemsPerPage = 15;
   totalPages = 0;
   loading = false;
 
@@ -30,7 +30,7 @@ export class ManagerViewEmployeeLeaveComponent implements OnInit{
 ) {}
 
   ngOnInit() {
-    const user = this.currentUserService.currentUser();
+    const user = this.currentUserService.getCurrentUser();
     if (user) {
       this.loadTeamLeaves(user.id);
     }
@@ -54,26 +54,25 @@ export class ManagerViewEmployeeLeaveComponent implements OnInit{
   }
 
   approve(leaveId: number) {
-    const user = this.currentUserService.currentUser();
+    const user = this.currentUserService.getCurrentUser();
     if (!user) return;
 
     this.leaveService.approveLeave(user.id, leaveId).subscribe({
       next: () => {
         this.loadTeamLeaves(user.id)
-        this.router.navigate(['manager/view-employee-leave']);
       },
       error: (err: any) => console.error('Failed to approve leave:', err)
     });
   }
 
   reject(leaveId: number) {
-    const user = this.currentUserService.currentUser();
+    const user = this.currentUserService.getCurrentUser();
     if (!user) return;
 
     this.leaveService.rejectLeave(user.id, leaveId).subscribe({
-      next: () => {
-        this.loadTeamLeaves(user.id)
-        this.router.navigate(['manager/view-employee-leave']);
+      next: (updatedLeave: LeaveApplication) => {
+        this.loadTeamLeaves(user.id);
+        this.currentUserService.refreshCurrentUser(updatedLeave.employeeId);
       },
       error: (err: any) => console.error('Failed to reject leave:', err)
     });

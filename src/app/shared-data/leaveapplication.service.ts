@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import {LeaveApplicationRequestBody, PaginatedLeaveApplication} from './paginated-leave-application';
+import {LeaveApplication, LeaveApplicationRequestBody, PaginatedLeaveApplication} from './paginated-leave-application';
 
 @Injectable({ providedIn: 'root' })
 export class LeaveService {
@@ -31,7 +31,7 @@ export class LeaveService {
   }
 
   rejectLeave(userId: number, leaveId: number) {
-    return this.http.patch(`${this.apiUrl}/${userId}/${leaveId}/reject`, {});
+    return this.http.patch<LeaveApplication>(`${this.apiUrl}/${userId}/${leaveId}/reject`, {});
   }
 
   cancelLeave(userId: number, leaveId: number) {
