@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { User, UserUpdateRequest } from '../../shared-data/paginated-users';
 import { UsersService } from '../../shared-data/users.service';
-import { User, UserRequestBody } from '../../shared-data/paginated-users';
+import { CurrentUserService } from '../../shared-data/currentUserService';
 
 interface Manager {
   id: number;
@@ -15,23 +17,14 @@ interface Role {
 
 @Component({
   selector: 'app-edit-user',
-  standalone: true,
-  imports: [FormsModule],
   templateUrl: './edit-user.component.html',
-  styleUrl: './edit-user.component.scss'
+  standalone: true,
+  imports: [CommonModule, FormsModule],
+  styleUrls: ['./edit-user.component.scss']
 })
 export class EditUserComponent implements OnInit {
-  user: User = {
-    id: 0,
-    name: '',
-    role: '',
-    managerId: null,
-    managerName: null,
-    totalCredits: 25,
-    remainingCredits: 25
-  };
-
-  isSubmitting = false;
+  user: User | null = null;
+  loading = true;
   managers: Manager[] = [];
   roles: Role[] = [
     { name: 'MANAGER' },
@@ -42,21 +35,28 @@ export class EditUserComponent implements OnInit {
   constructor(
     private readonly route: ActivatedRoute,
     private readonly router: Router,
-    private readonly usersService: UsersService
+    private readonly usersService: UsersService,
+    private readonly currentUserService: CurrentUserService
   ) {}
 
   ngOnInit(): void {
     this.loadManagers();
 
-    const userId = Number(this.route.snapshot.paramMap.get('id'));
-    if (!userId) {
+    const id = Number(this.route.snapshot.paramMap.get('id'));
+    if (!id) {
       this.router.navigateByUrl('/hr/employees');
       return;
     }
 
-    this.usersService.getUserById(userId).subscribe({
-      next: (data) => (this.user = data),
-      error: () => console.error('Error loading user')
+    this.usersService.getUserById(id).subscribe({
+      next: (data) => {
+        this.user = data;
+        this.loading = false;
+      },
+      error: () => {
+        this.loading = false;
+        this.router.navigateByUrl('/hr/employees');
+      }
     });
   }
 
@@ -66,16 +66,25 @@ export class EditUserComponent implements OnInit {
         this.managers = data.content
           .filter((u) => u.role === 'MANAGER')
           .map((u) => ({ id: u.id, name: u.name }));
+      },
+      error: (err) => {
+        console.error('Error loading managers:', err);
+        this.managers = [];
       }
     });
   }
 
-  saveUser(): void {
+  saveChanges(): void {
     if (!this.user) return;
 
-    this.isSubmitting = true;
+    const currentUser = this.currentUserService.getCurrentUser();
+    if (!currentUser) {
+      alert('No current user set');
+      return;
+    }
 
-    const payload: UserRequestBody = {
+    const updateBody: UserUpdateRequest = {
+      editorId: currentUser.id,
       name: this.user.name,
       role: this.user.role,
       managerId: this.user.managerId || null,
@@ -83,16 +92,16 @@ export class EditUserComponent implements OnInit {
       remainingCredits: this.user.remainingCredits
     };
 
-    this.usersService.updateUser(this.user.id, payload).subscribe({
-      next: () => {
-        alert('Employee updated successfully!');
-        this.router.navigateByUrl('/hr/employees');
-      },
+    this.usersService.updateUser(this.user.id, updateBody).subscribe({
+      next: () => this.router.navigate(['/hr/employees'], { state: { edited: true } }),
       error: (err) => {
-        console.error('Error updating employee:', err);
+        console.error('Update failed', err);
         alert('Error updating employee. Please try again.');
-      },
-      complete: () => (this.isSubmitting = false)
+      }
     });
+  }
+
+  goBack(): void {
+    this.router.navigateByUrl('/hr/employees');
   }
 }

@@ -51,7 +51,14 @@ $border-radius-sm: 6px;
   box-shadow: $shadow-md;
   padding: 2rem;
   border: 1px solid $border-color;
-  margin-bottom: 2rem;
+
+  margin: 0 auto;
+  box-sizing: border-box;
+  /* 👇 Add this */
+  max-height: 50vh;
+  overflow-y: auto;
+
+
 }
 
 // Form styles (reuse Apply Leave inputs)

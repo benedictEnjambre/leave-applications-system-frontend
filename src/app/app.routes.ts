@@ -9,11 +9,16 @@ import {EmployeeMyLeaveComponent} from './employee/my-leave/my-leave.component';
 import {ManagerViewEmployeeLeaveComponent} from './manager/view-employee-leave/employee-leave.component';
 
 import {UsersListComponent} from './hr/user-list/user-list.component';
+
+import {HomeComponent} from './home/home.component';
+
 import {HRViewAllLeavesComponent} from './hr/view-all-leaves/view-all-leaves.component';
 
 
 
+
 export const routes: Routes = [
+  { path: '', component: HomeComponent },
   {
     path: 'hr',
     children: [
@@ -38,5 +43,5 @@ export const routes: Routes = [
       {path: 'view-leave', component: ManagerViewLeaveComponent}
     ]
   },
-  { path: '**', redirectTo: 'hr/employees' },
+  { path: '**', redirectTo: '' },
 ];
