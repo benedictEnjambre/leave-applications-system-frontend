@@ -42,25 +42,25 @@ export class SidebarComponent {
     switch ((user.role ?? '').toUpperCase()) {
       case 'HR':
         return [
-          { label: 'Employees', children: [
-              { label: 'View All Employees', route: '/hr/employees' },
-              { label: 'Add New Employee', route: '/hr/create-employee' },
+          { label: '', children: [    //remove the Employees
+              { label: 'Employees', route: '/hr/employees' },
+              { label: 'Add New', route: '/hr/create-employee' },
             ]},
-          { label: 'Leaves', children: [
-              { label: 'View All Leave', route: '/hr/view-all-leave' },
+          { label: '', children: [ // leaves
+              { label: 'Leaves', route: '/hr/leaves' },
             ]},
         ];
       case 'MANAGER':
         return [
-          { label: 'Leaves', children: [
-              { label: 'Apply', route: '/manager/add-leave' },
+          { label: '', children: [
+              { label: 'Apply', route: '/manager/add-leave' },  // change route
               { label: 'My Leaves', route: '/manager/view-leave' },
               { label: 'View All', route: '/manager/view-employee-leave' },
             ]},
         ];
       case 'EMPLOYEE':
         return [
-          { label: 'Leaves', children: [
+          { label: '', children: [
               { label: 'Apply', route: '/employee/add-leave' },
               { label: 'My Leaves', route: '/employee/my-leave' },
             ]},

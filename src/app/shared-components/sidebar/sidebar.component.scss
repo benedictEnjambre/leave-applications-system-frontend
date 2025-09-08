@@ -58,4 +58,37 @@
       }
     }
   }
+
+
+}
+
+.sidebar {
+  background-color: #f9f9f9;
+  border-right: 1px solid #e5e5e5;
+  height: 100%;
+  font-family: 'Inter', sans-serif;
+
+  .menu {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .menu li {
+    padding: 0.5rem 1rem;
+    font-size: 0.95rem;
+    color: #333;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.15s ease;
+
+    &:hover {
+      background-color: #f0f0f0; // highlight only while hovering
+    }
+
+    &.active {
+      background-color: #e0e0e0; // stays highlighted when active (can be remove)
+      font-weight: 500;
+    }
+  }
 }
