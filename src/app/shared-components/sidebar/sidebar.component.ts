@@ -47,7 +47,7 @@ export class SidebarComponent {
               { label: 'Add New', route: '/hr/create-employee' },
             ]},
           { label: '', children: [ // leaves
-              { label: 'Leaves', route: '/hr/leaves' },
+              { label: 'Leaves', route: '/hr/view-all-leave' },
             ]},
         ];
       case 'MANAGER':
