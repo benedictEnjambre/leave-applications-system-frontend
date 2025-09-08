@@ -3,6 +3,7 @@ import {LeaveApplication, PaginatedLeaveApplication} from '../../shared-data/pag
 import {CurrentUserService} from '../../shared-data/currentUserService';
 import {NgForOf, NgIf} from '@angular/common';
 import {LeaveService} from '../../shared-data/leaveapplication.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-view-leave',
@@ -15,13 +16,14 @@ import {LeaveService} from '../../shared-data/leaveapplication.service';
   styleUrl: './view-leave.component.scss'
 })
 export class ManagerViewLeaveComponent implements OnInit{
-  leaves: LeaveApplication[] = [];   // ✅ now defined
+  leaves: LeaveApplication[] = [];
   currentPage = 1;
-  itemsPerPage = 5;
+  itemsPerPage = 15;
   totalPages = 0;
   loading = false;
 
   constructor(
+    private readonly router: Router,
     private currentUserService: CurrentUserService,
     private readonly leaveService: LeaveService
   ) {}
@@ -55,8 +57,12 @@ export class ManagerViewLeaveComponent implements OnInit{
     if (!user) return;
 
     this.leaveService.cancelLeave(user.id, leaveId).subscribe({
-      next: () => this.loadLeaves(user.id),
+      next: () => {
+        this.loadLeaves(user.id);
+        this.router.navigate(['manager/view-leave']);
+      },
       error: (err: any) => console.error('Failed to cancel leave:', err)
     });
   }
+
 }

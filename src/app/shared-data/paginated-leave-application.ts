@@ -8,16 +8,15 @@ export interface LeaveApplication {
   id: number;
   startDate: string;
   endDate: string;
-  leaveType: string;
   status: string;
   days: number;
   remarks: string;
+  availableCredits: number;
 }
 
-export interface UserRequestBody {
+export interface LeaveApplicationRequestBody {
   startDate: string;
   endDate: string;
-  leaveType: string;
   remarks: string;
 }
 
