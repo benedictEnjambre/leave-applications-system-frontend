@@ -3,6 +3,7 @@ import {LeaveApplication} from '../../shared-data/paginated-leave-application';
 import {CurrentUserService} from '../../shared-data/currentUserService';
 import {NgForOf, NgIf} from '@angular/common';
 import {LeaveService} from '../../shared-data/leaveapplication.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'view-employee-leave',
@@ -23,8 +24,10 @@ export class ManagerViewEmployeeLeaveComponent implements OnInit{
 
   constructor(
     private currentUserService: CurrentUserService,
-    private readonly leaveService: LeaveService
-  ) {}
+    private readonly leaveService: LeaveService,
+    private readonly router: Router
+
+) {}
 
   ngOnInit() {
     const user = this.currentUserService.currentUser();
@@ -55,7 +58,10 @@ export class ManagerViewEmployeeLeaveComponent implements OnInit{
     if (!user) return;
 
     this.leaveService.approveLeave(user.id, leaveId).subscribe({
-      next: () => this.loadTeamLeaves(user.id),
+      next: () => {
+        this.loadTeamLeaves(user.id)
+        this.router.navigate(['manager/view-employee-leave']);
+      },
       error: (err: any) => console.error('Failed to approve leave:', err)
     });
   }
@@ -65,7 +71,10 @@ export class ManagerViewEmployeeLeaveComponent implements OnInit{
     if (!user) return;
 
     this.leaveService.rejectLeave(user.id, leaveId).subscribe({
-      next: () => this.loadTeamLeaves(user.id),
+      next: () => {
+        this.loadTeamLeaves(user.id)
+        this.router.navigate(['manager/view-employee-leave']);
+      },
       error: (err: any) => console.error('Failed to reject leave:', err)
     });
   }
