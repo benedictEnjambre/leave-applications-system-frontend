@@ -17,8 +17,8 @@ export class UsersService {
   saveUser(userRequestBody: UserRequestBody): Observable<User> {
     return this.http.post<User>(this.URL, userRequestBody);
   }
-  updateUser(id: number, updateBody: UserUpdateRequest): Observable<User> {
-    return this.http.put<User>(`${this.URL}/${id}`, updateBody);
+  updateUser(id: number, userUpdateRequest: UserUpdateRequest): Observable<User> {
+    return this.http.put<User>(`${this.URL}/${id}`, userUpdateRequest);
   }
   deleteUser(id: number) {
     return this.http.delete(`${this.URL}/${id}`);

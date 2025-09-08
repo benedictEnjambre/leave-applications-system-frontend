@@ -3,10 +3,14 @@
 
   <select
     class="user-dropdown"
-    [value]="selectedUser?.id"
-    (change)="onUserChanged($event)">
+    [value]="selectedUser?.id || ''"
+    (change)="onUserChanged($event)"
+    [disabled]="users.length === 0">
+    <option value="" disabled>
+      {{ users.length === 0 ? 'Loading users...' : 'Select user' }}
+    </option>
     <option *ngFor="let user of users" [value]="user.id">
-      {{ user.name }} ({{ user.role }})
+      {{ user?.name || 'Unknown' }} ({{ user?.role || 'No role' }})
     </option>
   </select>
 </header>

@@ -56,6 +56,9 @@ $border-radius-sm: 6px;
   border: 1px solid $border-color;
   margin: 0 auto;
   box-sizing: border-box;
+  /* 👇 Add this */
+  max-height: 50vh;
+  overflow-y: auto;
 }
 
 // Form styles - tighter spacing

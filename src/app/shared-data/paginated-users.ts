@@ -21,6 +21,7 @@ export interface UserRequestBody {
   remainingCredits: number;
 }
 export interface UserUpdateRequest{
+  editorId?: number | null; //to be changed to number only
   name: string;
   role: string;
   managerId?: number | null;

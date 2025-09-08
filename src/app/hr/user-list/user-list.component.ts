@@ -3,6 +3,7 @@ import { Router, RouterLink } from '@angular/router';
 import {User} from '../../shared-data/paginated-users';
 import {UsersService} from '../../shared-data/users.service';
 import {FormsModule} from '@angular/forms';
+import {CurrentUserService} from '../../shared-data/currentUserService';
 
 
 @Component({
@@ -23,9 +24,11 @@ export class UsersListComponent implements OnInit {
   showSuccessMsg = '';
   successType: 'success' | 'info' | 'error' | '' = '';
 
+
   constructor(
     private readonly router: Router,
     private readonly usersService: UsersService,
+    private readonly currentUserService: CurrentUserService
   ) {
 /*    effect(() => {
     //  const createUserSuccessMessage = this.userTransactionSignalService.userSuccessEventMessage();
@@ -38,6 +41,7 @@ export class UsersListComponent implements OnInit {
   }
 
   ngOnInit() {
+
     this.loadUsers();
 
 /*    const nav = history.state;
@@ -48,6 +52,8 @@ export class UsersListComponent implements OnInit {
       this.showSuccessMsg = 'User successfully edited';
       this.successType = 'info';
     }*/
+
+
   }
 
   private loadUsers(page: number = 1) {
@@ -58,11 +64,22 @@ export class UsersListComponent implements OnInit {
     });
   }
 
-  goToEdit(id: number): void {
-    this.router.navigate(['/hr/employee/edit', id], {
-      state: { edited: true }
+  goToEdit(employeeId: number): void {
+    const currentUser = this.currentUserService.getCurrentUser();
+
+    if (!currentUser || currentUser.role !== 'HR') {
+      alert('Only HR can edit employees.');
+      return;
+    }
+
+    this.router.navigate(['/hr/employee/edit', employeeId], {
+      state: {
+        edited: true,
+        hrId: currentUser.id
+      }
     });
   }
+
 
   goToPage(page: number) {
     if (page >= 1 && page <= this.totalPages) {
