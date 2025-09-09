@@ -28,7 +28,7 @@ export class HRViewAllLeavesComponent implements OnInit {
   }
 
   ngOnInit() {
-    const user = this.currentUserService.currentUser();
+    const user = this.currentUserService.getCurrentUser();
     if (user) {
       this.loadAllLeaves(user.id);
     }
@@ -52,7 +52,7 @@ export class HRViewAllLeavesComponent implements OnInit {
   }
 
   approve(leaveId: number) {
-    const user = this.currentUserService.currentUser();
+    const user = this.currentUserService.getCurrentUser();
     if (!user) return;
 
     this.leaveService.approveLeave(user.id, leaveId).subscribe({
@@ -62,7 +62,7 @@ export class HRViewAllLeavesComponent implements OnInit {
   }
 
   reject(leaveId: number) {
-    const user = this.currentUserService.currentUser();
+    const user = this.currentUserService.getCurrentUser();
     if (!user) return;
 
     this.leaveService.rejectLeave(user.id, leaveId).subscribe({

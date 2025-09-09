@@ -1,54 +1,108 @@
 h2 {
   font-size: 1.5rem;
-  margin-bottom: 1rem;
+  margin-bottom: 0.25rem;
   font-weight: 600;
-  color: #333;
+  color: #222;
 }
 
-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 1rem;
+.sub-header {
+  margin-bottom: 1.5rem;
+  color: #666;
   font-size: 0.95rem;
+}
 
-  thead {
-    background-color: #f8f9fa;
+.leave-card {
+  background: #fff;
+  border-radius: 6px;
+  padding: 1rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  margin-top: 1rem;
 
-    th {
-      text-align: left;
-      padding: 0.75rem;
-      border-bottom: 2px solid #ddd;
-      font-weight: 600;
-      color: #555;
-    }
-  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.95rem;
 
-  tbody {
-    tr {
-      border-bottom: 1px solid #eee;
+    thead {
+      background-color: #f8f9fa;
 
-      &:hover {
-        background-color: #fafafa;
+      th {
+        text-align: left;
+        padding: 0.75rem;
+        border-bottom: 2px solid #ddd;
+        font-weight: 600;
+        color: #555;
       }
     }
 
-    td {
-      padding: 0.75rem;
-      color: #444;
+    tbody {
+      tr {
+        border-bottom: 1px solid #eee;
+
+        &:hover {
+          background-color: #fafafa;
+        }
+      }
+
+      td {
+        padding: 0.75rem;
+        color: #444;
+        vertical-align: middle;
+      }
     }
+  }
+
+  p {
+    margin-top: 1rem;
+    color: #666;
+    font-style: italic;
+  }
+
+  .loading {
+    margin-top: 1rem;
+    font-weight: 500;
+    color: #007bff;
   }
 }
 
-p {
-  margin-top: 1rem;
-  color: #666;
-  font-style: italic;
+/* Buttons */
+.btn-approve {
+  background-color: #28a745;
+  border: none;
+  color: #fff;
+  padding: 0.4rem 0.8rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  margin-right: 0.5rem;
+
+  &:hover:enabled {
+    background-color: #218838;
+  }
+
+  &:disabled {
+    background-color: #a8d5b8;
+    cursor: not-allowed;
+  }
 }
 
-.loading {
-  margin-top: 1rem;
-  font-weight: 500;
-  color: #007bff;
+.btn-reject {
+  background-color: #dc3545;
+  border: none;
+  color: #fff;
+  padding: 0.4rem 0.8rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.85rem;
+
+  &:hover:enabled {
+    background-color: #c82333;
+  }
+
+  &:disabled {
+    background-color: #e6aeb4;
+    cursor: not-allowed;
+  }
 }
 
 .pagination {

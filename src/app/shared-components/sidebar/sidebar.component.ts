@@ -25,10 +25,9 @@ export class SidebarComponent {
     private router: Router
   ) {
     effect(() => {
-      const user = this.currentUserService.currentUser();
+      const user = this.currentUserService.getCurrentUser();
       this.menuItems = this.buildMenu(user);
 
-      // 👇 if there’s at least one menu with children, set the first one active
       const firstChild = this.menuItems[0]?.children?.[0];
       if (firstChild) {
         this.activeItem = firstChild.label;

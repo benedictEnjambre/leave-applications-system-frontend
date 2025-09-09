@@ -25,7 +25,7 @@ export class EmployeeMyLeaveComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    const user = this.currentUserService.currentUser();
+    const user = this.currentUserService.getCurrentUser();
     if (user) {
       this.loadLeaves(user.id);
     }
@@ -49,11 +49,14 @@ export class EmployeeMyLeaveComponent implements OnInit {
   }
 
   cancel(leaveId: number) {
-    const user = this.currentUserService.currentUser();
+    const user = this.currentUserService.getCurrentUser();
     if (!user) return;
 
     this.leaveService.cancelLeave(user.id, leaveId).subscribe({
-      next: () => this.loadLeaves(user.id),
+      next: () => {
+        this.loadLeaves(user.id);
+        this.currentUserService.refreshCurrentUser(user.id);
+      },
       error: (err: any) => console.error('Failed to cancel leave:', err)
     });
   }
