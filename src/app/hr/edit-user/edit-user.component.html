@@ -1,56 +1,59 @@
-<div>
-  <div class="form-header">
-    <h1 class="form-title">Edit Employee</h1>
-    <p class="form-subtitle">Edit an employee profile</p>
-  </div>
+<!-- HTML Template -->
+<div class="form-header">
+  <h1 class="form-title">Edit Employee</h1>
+  <p class="form-subtitle">Edit an employee profile</p>
 </div>
 
 @if (!loading && user) {
-  <div class="form-wrapper">
-    <div class="form-container edit-form">
-      <h2 class="form-title">Edit Employee</h2>
+  <div class="form-container">
+    <form class="employee-form">
+      <div class="form-content">
+        <!-- Left column - Basic info -->
+        <div class="form-left">
+          <div class="form-group">
+            <label for="name" class="form-label">Employee Name:</label>
+            <input id="name" type="text" [(ngModel)]="user.name" name="name" required class="form-input" />
+          </div>
 
-      <form class="employee-form">
-        <div class="form-group">
-          <label for="name" class="form-label">Employee Name:</label>
-          <input id="name" type="text" [(ngModel)]="user.name" name="name" required class="form-input" />
+          <div class="form-group">
+            <label for="role" class="form-label">Role:</label>
+            <select id="role" [(ngModel)]="user.role" name="role" required class="form-select">
+              <option value="" disabled>Select Role</option>
+              @for (role of roles; track role.name) {
+                <option [value]="role.name">{{ role.name }}</option>
+              }
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="managerId" class="form-label">Manager:</label>
+            <select id="managerId" [(ngModel)]="user.managerId" name="managerId" class="form-select">
+              <option [ngValue]="null">-- No Manager --</option>
+              @for (manager of managers; track manager.id) {
+                <option [ngValue]="manager.id">{{ manager.name }}</option>
+              }
+            </select>
+          </div>
         </div>
 
-        <div class="form-group">
-          <label for="role" class="form-label">Role:</label>
-          <select id="role" [(ngModel)]="user.role" name="role" required class="form-select">
-            <option value="" disabled>Select Role</option>
-            @for (role of roles; track role.name) {
-              <option [value]="role.name">{{ role.name }}</option>
-            }
-          </select>
-        </div>
+        <!-- Right column - Credits -->
+        <div class="form-right">
+          <div class="form-group">
+            <label for="totalCredits" class="form-label">Total Leave Credits:</label>
+            <input id="totalCredits" type="number" [(ngModel)]="user.totalCredits" name="totalCredits" min="0" max="365" class="form-input" />
+          </div>
 
-        <div class="form-group">
-          <label for="managerId" class="form-label">Manager:</label>
-          <select id="managerId" [(ngModel)]="user.managerId" name="managerId" class="form-select">
-            <option [ngValue]="null">-- No Manager --</option>
-            @for (manager of managers; track manager.id) {
-              <option [ngValue]="manager.id">{{ manager.name }}</option>
-            }
-          </select>
+          <div class="form-group">
+            <label for="remainingCredits" class="form-label">Remaining Leave Credits:</label>
+            <input id="remainingCredits" type="number" [(ngModel)]="user.remainingCredits" name="remainingCredits" min="0" [max]="user.totalCredits" class="form-input" />
+          </div>
         </div>
+      </div>
 
-        <div class="form-group">
-          <label for="totalCredits" class="form-label">Total Leave Credits:</label>
-          <input id="totalCredits" type="number" [(ngModel)]="user.totalCredits" name="totalCredits" min="0" max="365" class="form-input" />
-        </div>
-
-        <div class="form-group">
-          <label for="remainingCredits" class="form-label">Remaining Leave Credits:</label>
-          <input id="remainingCredits" type="number" [(ngModel)]="user.remainingCredits" name="remainingCredits" min="0" [max]="user.totalCredits" class="form-input" />
-        </div>
-
-        <div class="form-actions">
-          <button type="button" class="btn-action btn-primary btn-cancel" (click)="goBack()">Cancel</button>
-          <button type="button" class="btn-action btn-primary btn-save" (click)="saveChanges()">Save Changes</button>
-        </div>
-      </form>
-    </div>
+      <div class="form-actions">
+        <button type="button" class="btn-secondary" (click)="goBack()">Cancel</button>
+        <button type="button" class="btn-primary" (click)="saveChanges()">Save Changes</button>
+      </div>
+    </form>
   </div>
 }

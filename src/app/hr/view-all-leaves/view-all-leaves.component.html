@@ -2,7 +2,7 @@
 
 <div *ngIf="loading">Loading...</div>
 
-<table *ngIf="!loading && leaves.length > 0">
+<table *ngIf="!loading && leaves.length > 0" class="leaves-table">
   <thead>
   <tr>
     <th>Employee</th>
@@ -23,9 +23,11 @@
     <td>{{ leave.days }}</td>
     <td>{{ leave.remarks }}</td>
     <td>
-      <button (click)="approve(leave.id)" [disabled]="leave.status !== 'PENDING'" class="btn-approve">✅ Approve
+      <button (click)="approve(leave.id)" [disabled]="leave.status !== 'PENDING'" class="btn-approve">
+        ✅ Approve
       </button>
-      <button (click)="reject(leave.id)" [disabled]="leave.status !== 'PENDING'" class="btn-reject">❌ Reject
+      <button (click)="reject(leave.id)" [disabled]="leave.status !== 'PENDING'" class="btn-reject">
+        ❌ Reject
       </button>
     </td>
   </tr>
@@ -33,3 +35,23 @@
 </table>
 
 <p *ngIf="!loading && leaves.length === 0">No leave applications found.</p>
+
+<!-- Pagination with numbers -->
+<div class="pagination" *ngIf="totalPages > 1">
+  <button (click)="goToPage(currentPage - 1)" [disabled]="currentPage === 1">
+    Prev
+  </button>
+
+  <button
+    *ngFor="let page of [].constructor(totalPages); let i = index"
+    (click)="goToPage(i + 1)"
+    [disabled]="currentPage === i + 1"
+    [class.active]="currentPage === i + 1"
+  >
+    {{ i + 1 }}
+  </button>
+
+  <button (click)="goToPage(currentPage + 1)" [disabled]="currentPage === totalPages">
+    Next
+  </button>
+</div>
