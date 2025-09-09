@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, effect, OnInit} from '@angular/core';
 import { Router } from '@angular/router';
 import { ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -34,14 +34,18 @@ export class ManagerAddLeaveComponent implements OnInit{
       totalDays: new FormControl(0, Validators.required),
       remarks: new FormControl('', [Validators.required, Validators.minLength(5)])
     });
+
+    effect(() => {
+      const user = this.currentUserService.getCurrentUser();
+      if (user) {
+        this.availableLeave = user.remainingCredits;
+      }
+    });
   }
 
   ngOnInit() {
     this.leaveForm.get('startDate')?.valueChanges.subscribe(() => this.calculateTotalDays());
     this.leaveForm.get('endDate')?.valueChanges.subscribe(() => this.calculateTotalDays());
-
-    const user = this.currentUserService.getCurrentUser();
-    this.availableLeave = user?.remainingCredits ?? 0;
   }
 
   calculateTotalDays() {
