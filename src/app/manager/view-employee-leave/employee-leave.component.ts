@@ -4,13 +4,19 @@ import {CurrentUserService} from '../../shared-data/currentUserService';
 import {NgForOf, NgIf} from '@angular/common';
 import {LeaveService} from '../../shared-data/leaveapplication.service';
 import {Router} from '@angular/router';
+import {
+  EmployeeLeavesTableComponent
+} from '../../shared-components/employee-leaves-table/employee-leaves-table.component';
+import {PaginationComponent} from '../../shared-components/pagination/pagination.component';
 
 @Component({
   selector: 'view-employee-leave',
   standalone: true,
   imports: [
     NgForOf,
-    NgIf
+    NgIf,
+    EmployeeLeavesTableComponent,
+    PaginationComponent
   ],
   templateUrl: './employee-leave.component.html',
   styleUrl: './employee-leave.component.scss'
@@ -78,4 +84,30 @@ export class ManagerViewEmployeeLeaveComponent implements OnInit{
     });
   }
 
+  loadAllLeaves(userId: number) {
+    this.loading = true;
+    this.leaveService.fetchAllLeaves(userId, this.currentPage, this.itemsPerPage)
+      .subscribe({
+        next: (response) => {
+          this.leaves = response.content;
+          this.totalPages = Math.ceil(response.totalCount / this.itemsPerPage);
+          this.currentPage = response.pageNumber;
+          this.loading = false;
+        },
+        error: (err) => {
+          console.error('Failed to fetch leaves:', err);
+          this.loading = false;
+        }
+      });
+  }
+
+  goToPage(page: number) {
+    if (page < 1 || page > this.totalPages) return;
+
+    const user = this.currentUserService.getCurrentUser();
+    if (!user) return;
+
+    this.currentPage = page;
+    this.loadAllLeaves(user.id);
+  }
 }
