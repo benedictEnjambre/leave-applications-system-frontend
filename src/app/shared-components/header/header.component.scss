@@ -15,6 +15,13 @@
   border-radius: 4px;
 }
 
+.user-select-container{
+  display: flex;
+  align-items: center;
+  gap:8px;
+}
 
-
-
+.user-label {
+  font-weight: 500;
+  color: #000;
+}

@@ -1,5 +1,6 @@
 <h2>All Leave Applications</h2>
 
+<div class="leave-card">
 <div *ngIf="loading">Loading...</div>
 
 <table *ngIf="!loading && leaves.length > 0">
@@ -23,9 +24,9 @@
     <td>{{ leave.days }}</td>
     <td>{{ leave.remarks }}</td>
     <td>
-      <button (click)="approve(leave.id)" [disabled]="leave.status !== 'PENDING'" class="btn-approve">✅ Approve
+      <button (click)="approve(leave.id)" [disabled]="leave.status !== 'PENDING'" class="btn-approve">Approve
       </button>
-      <button (click)="reject(leave.id)" [disabled]="leave.status !== 'PENDING'" class="btn-reject">❌ Reject
+      <button (click)="reject(leave.id)" [disabled]="leave.status !== 'PENDING'" class="btn-reject"> Reject
       </button>
     </td>
   </tr>
@@ -33,3 +34,4 @@
 </table>
 
 <p *ngIf="!loading && leaves.length === 0">No leave applications found.</p>
+</div>
