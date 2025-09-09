@@ -46,14 +46,26 @@
   </table>
 
   <div class="pagination">
-    <button (click)="goToPage(currentPage - 1)" [disabled]="currentPage === 1">
-      Prev
-    </button>
+    @if (totalPages > 1) {
+      <button (click)="goToPage(currentPage - 1)" [disabled]="currentPage === 1">
+        Prev
+      </button>
 
-    <span>Page {{ currentPage }} of {{ totalPages }}</span>
+      @for (page of [].constructor(totalPages); track $index) {
+        <button
+          (click)="goToPage($index + 1)"
+          [disabled]="currentPage === $index + 1"
+          [class.active]="currentPage === $index + 1"
+        >
+          {{ $index + 1 }}
+        </button>
+      }
 
-    <button (click)="goToPage(currentPage + 1)" [disabled]="currentPage === totalPages">
-      Next
-    </button>
+      <button (click)="goToPage(currentPage + 1)" [disabled]="currentPage === totalPages">
+        Next
+      </button>
+    }
   </div>
+
+
 </div>

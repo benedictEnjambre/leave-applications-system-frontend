@@ -70,4 +70,15 @@ export class HRViewAllLeavesComponent implements OnInit {
       error: (err: any) => console.error('Failed to reject leave:', err)
     });
   }
+
+  goToPage(page: number) {
+    if (page < 1 || page > this.totalPages) return;
+
+    const user = this.currentUserService.currentUser();
+    if (!user) return;
+
+    this.currentPage = page;
+    this.loadAllLeaves(user.id);
+  }
+
 }

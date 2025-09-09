@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { UsersService } from '../../shared-data/users.service';
 import { UserRequestBody } from '../../shared-data/paginated-users';
+import {Router} from '@angular/router';
 
 interface Manager {
   id: number;
@@ -36,7 +37,10 @@ export class CreateUserComponent implements OnInit {
     { name: 'EMPLOYEE' }
   ];
 
-  constructor(private readonly usersService: UsersService) {}
+  constructor(
+    private readonly usersService: UsersService,
+    private readonly router: Router
+  ) {}
 
   ngOnInit(): void {
     this.loadManagers();
@@ -63,7 +67,8 @@ export class CreateUserComponent implements OnInit {
     this.usersService.saveUser(payload).subscribe({
       next: () => {
         alert('Employee added successfully!');
-        this.resetForm();
+        this.router.navigate(['/hr/employees']);
+
       },
       error: (err) => {
         console.error('Error adding employee:', err);
