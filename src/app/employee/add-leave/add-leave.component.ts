@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, effect, OnInit} from '@angular/core';
 import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
 import {LeaveService} from '../../shared-data/leaveapplication.service';
@@ -37,14 +37,18 @@ export class EmployeeAddLeaveComponent implements OnInit {
       totalDays: new FormControl(0, Validators.required),
       remarks: new FormControl('', [Validators.required, Validators.minLength(5)])
     });
+
+    effect(() => {
+      const user = this.currentUserService.getCurrentUser();
+      if (user) {
+        this.availableLeave = user.remainingCredits;
+      }
+    });
   }
 
   ngOnInit() {
     this.leaveForm.get('startDate')?.valueChanges.subscribe(() => this.calculateTotalDays());
     this.leaveForm.get('endDate')?.valueChanges.subscribe(() => this.calculateTotalDays());
-
-    const user = this.currentUserService.getCurrentUser();
-    this.availableLeave = user?.remainingCredits ?? 0;
   }
 
   calculateTotalDays() {
