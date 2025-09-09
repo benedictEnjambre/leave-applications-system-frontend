@@ -4,6 +4,7 @@ import {Router} from '@angular/router';
 import {LeaveService} from '../../shared-data/leaveapplication.service';
 import {CurrentUserService} from '../../shared-data/currentUserService';
 import {PaginatedLeaveApplication} from '../../shared-data/paginated-leave-application';
+import {UsersService} from '../../shared-data/users.service';
 
 @Component({
   selector: 'app-employee-add-leave',
@@ -24,7 +25,8 @@ export class EmployeeAddLeaveComponent implements OnInit {
   constructor(
     private readonly router: Router,
     private readonly leaveService: LeaveService,
-    private readonly currentUserService: CurrentUserService
+    private readonly currentUserService: CurrentUserService,
+    private readonly usersService: UsersService
   ) {
     const user = this.currentUserService.getCurrentUser();
     this.availableLeave = user?.remainingCredits ?? 0;
@@ -57,10 +59,23 @@ export class EmployeeAddLeaveComponent implements OnInit {
     const startDate = new Date(start);
     const endDate = new Date(end);
 
-    const diff =
-      Math.floor((endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24)) + 1;
+    if (endDate < startDate) {
+      this.leaveForm.get('totalDays')?.setValue(0);
+      return;
+    }
 
-    this.leaveForm.get('totalDays')?.setValue(diff > 0 ? diff : 0);
+    let days = 0;
+    let current = new Date(startDate);
+
+    while (current <= endDate) {
+      const dayOfWeek = current.getDay();
+      if (dayOfWeek !== 0 && dayOfWeek !== 6) {
+        days++;
+      }
+      current.setDate(current.getDate() + 1);
+    }
+
+    this.leaveForm.get('totalDays')?.setValue(days);
   }
 
   saveLeaveApplication() {
@@ -81,8 +96,12 @@ export class EmployeeAddLeaveComponent implements OnInit {
             console.log('Leave request submitted:', response);
             alert('Leave request submitted successfully!');
 
-            // update available leave immediately in UI
             this.availableLeave = Math.max(this.availableLeave - totalDays, 0);
+
+            this.usersService.getUserById(user.id).subscribe(updatedUser => {
+              this.currentUserService.setCurrentUser(updatedUser); // update global state
+              this.availableLeave = updatedUser.remainingCredits ?? 0;
+            });
 
             // reset form
             this.leaveForm.reset({totalDays: 0});
