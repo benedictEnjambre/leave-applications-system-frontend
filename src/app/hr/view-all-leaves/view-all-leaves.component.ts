@@ -74,7 +74,7 @@ export class HRViewAllLeavesComponent implements OnInit {
   goToPage(page: number) {
     if (page < 1 || page > this.totalPages) return;
 
-    const user = this.currentUserService.currentUser();
+    const user = this.currentUserService.getCurrentUser();
     if (!user) return;
 
     this.currentPage = page;
