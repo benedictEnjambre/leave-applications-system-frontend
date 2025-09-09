@@ -22,9 +22,12 @@ export class HeaderComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    // Only make HTTP calls in the browser, not during SSR
     if (isPlatformBrowser(this.platformId)) {
       this.loadUsers();
+
+      this.usersService.onUsersUpdated().subscribe(() => {
+        this.loadUsers();
+      });
     }
   }
 
@@ -49,11 +52,16 @@ export class HeaderComponent implements OnInit {
     const selectedId = Number(target.value);
 
     if (selectedId) {
-      this.selectedUser = this.users.find(user => user.id === selectedId);
-      if (this.selectedUser) {
-        console.log('Selected user object:', this.selectedUser);
-        this.currentUserService.setCurrentUser(this.selectedUser);
-      }
+      this.usersService.getUserById(selectedId).subscribe({
+        next: (freshUser) => {
+          this.selectedUser = freshUser;
+          this.currentUserService.setCurrentUser(freshUser);
+        },
+        error: (err) => {
+          console.error('Failed to fetch user:', err);
+        }
+      });
     }
   }
+
 }

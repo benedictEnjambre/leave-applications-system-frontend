@@ -1,12 +1,15 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { PaginatedUsers, User, UserRequestBody, UserUpdateRequest } from './paginated-users';
-import { Observable } from 'rxjs';
+import {Observable, Subject, tap} from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
 export class UsersService {
   private URL = '/api/v1/user';
+
+  private usersUpdated$ = new Subject<void>();
+
   constructor(private readonly http: HttpClient) {}
   getAllUsers(page: number = 1, max: number = 2): Observable<PaginatedUsers> {
     return this.http.get<PaginatedUsers>(`${this.URL}?max=${max}&page=${page}`);
@@ -15,12 +18,20 @@ export class UsersService {
     return this.http.get<User>(`${this.URL}/${id}`);
   }
   saveUser(userRequestBody: UserRequestBody): Observable<User> {
-    return this.http.post<User>(this.URL, userRequestBody);
+    return this.http.post<User>(this.URL, userRequestBody).pipe(
+      tap(() => this.usersUpdated$.next()) // 🔔 notify listeners
+    );
   }
   updateUser(id: number, userUpdateRequest: UserUpdateRequest): Observable<User> {
-    return this.http.put<User>(`${this.URL}/${id}`, userUpdateRequest);
+    return this.http.put<User>(`${this.URL}/${id}`, userUpdateRequest).pipe(
+      tap(() => this.usersUpdated$.next()));
   }
+
   deleteUser(id: number) {
     return this.http.delete(`${this.URL}/${id}`);
+  }
+
+  onUsersUpdated(): Observable<void> {
+    return this.usersUpdated$.asObservable();
   }
 }
