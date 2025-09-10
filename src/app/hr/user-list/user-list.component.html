@@ -12,7 +12,7 @@
 <!--<div class="employees-container">-->
   <div class="search-container">
     <i class="fas fa-search search-icon"></i>
-    <input type="text" class="search-input" placeholder="Search employees..." ><!--[(ngModel)]="searchTerm"-->
+    <input type="text" class="search-input" placeholder="Search employees..." [(ngModel)]="searchTerm">
   </div>
 
   <table class="employees-table">
@@ -28,7 +28,8 @@
     </thead>
 
     <tbody>
-      @for (user of users; track user.id) {
+<!--    change the user into filteredUsers -->
+      @for (user of filteredUsers(); track user.id) {
         <tr>
           <td><span class="employee-id">EMP{{ user.id.toString().padStart(3, '0') }}</span></td>
           <td><span class="employee-name">{{ user.name }}</span></td>
