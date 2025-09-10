@@ -1,3 +1,4 @@
+
 h2 {
   font-size: 1.5rem;
   margin-bottom: 0.25rem;
@@ -50,6 +51,7 @@ h2 {
         vertical-align: middle;
       }
     }
+
   }
 
   p {
@@ -102,5 +104,26 @@ h2 {
   &:disabled {
     background-color: #e6aeb4;
     cursor: not-allowed;
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .team-leaves-container {
+    padding: 0 1rem 1rem 1rem;
+  }
+
+  .team-leaves-table {
+    font-size: 0.85rem;
+
+    th,
+    td {
+      padding: 0.75rem 0.5rem;
+    }
+  }
+
+  .page-title {
+    font-size: 1.5rem;
+    padding: 1.5rem 0 0.5rem 0;
   }
 }

@@ -82,12 +82,9 @@
     transition: background-color 0.15s ease;
 
     &:hover {
-      background-color: #f0f0f0; // highlight only while hovering
+      background-color: #666666; // medium dark gray
+      color: #ffffff; // keeps text readable
     }
 
-    &.active {
-      background-color: #e0e0e0; // stays highlighted when active (can be remove)
-      font-weight: 500;
-    }
   }
 }
