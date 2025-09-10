@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { User, UserUpdateRequest } from '../../shared-data/paginated-users';
 import { UsersService } from '../../shared-data/users.service';
 import { CurrentUserService } from '../../shared-data/currentUserService';
+import {ConfirmationModalComponent} from '../../shared-components/confirmation-modal/confirmation-modal.component';
 
 interface Manager {
   id: number;
@@ -19,7 +20,7 @@ interface Role {
   selector: 'app-edit-user',
   templateUrl: './edit-user.component.html',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, ConfirmationModalComponent],
   styleUrls: ['./edit-user.component.scss']
 })
 export class EditUserComponent implements OnInit {
@@ -31,6 +32,9 @@ export class EditUserComponent implements OnInit {
     { name: 'HR' },
     { name: 'EMPLOYEE' }
   ];
+
+
+  showModal = false; // <-- controls the modal
 
   constructor(
     private readonly route: ActivatedRoute,
@@ -76,6 +80,8 @@ export class EditUserComponent implements OnInit {
 
   saveChanges(): void {
     if (!this.user) return;
+
+    this.showModal = false; // <-- controls the modal
 
     const currentUser = this.currentUserService.getCurrentUser();
     if (!currentUser) {

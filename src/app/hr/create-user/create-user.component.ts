@@ -3,6 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { UsersService } from '../../shared-data/users.service';
 import { UserRequestBody } from '../../shared-data/paginated-users';
 import {Router} from '@angular/router';
+import {ConfirmationModalComponent} from '../../shared-components/confirmation-modal/confirmation-modal.component';
 
 interface Manager {
   id: number;
@@ -16,7 +17,7 @@ interface Role {
 @Component({
   selector: 'app-create-user',
   standalone: true,
-  imports: [FormsModule],
+  imports: [FormsModule, ConfirmationModalComponent],
   templateUrl: './create-user.component.html',
   styleUrl: './create-user.component.scss'
 })
@@ -30,6 +31,7 @@ export class CreateUserComponent implements OnInit {
   };
 
   isSubmitting = false;
+  showModal = false; // <-- controls confirmation modal
   managers: Manager[] = [];
   roles: Role[] = [
     { name: 'MANAGER' },
@@ -58,6 +60,7 @@ export class CreateUserComponent implements OnInit {
 
   saveUser(): void {
     this.isSubmitting = true;
+    this.showModal = false;
 
     const payload: UserRequestBody = {
       ...this.user,
@@ -66,13 +69,11 @@ export class CreateUserComponent implements OnInit {
 
     this.usersService.saveUser(payload).subscribe({
       next: () => {
-        alert('Employee added successfully!');
         this.router.navigate(['/hr/employees']);
 
       },
       error: (err) => {
         console.error('Error adding employee:', err);
-        alert('Error adding employee. Please try again.');
         this.isSubmitting = false;
       },
       complete: () => (this.isSubmitting = false)

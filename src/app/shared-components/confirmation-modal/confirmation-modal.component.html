@@ -1,0 +1,17 @@
+@if (isOpen) {
+  <div class="modal-backdrop">
+    <div class="modal">
+      <h2 class="modal-title">{{ title }}</h2>
+      <p class="modal-message">{{ message }}</p>
+
+      <div class="modal-actions">
+        <button class="btn-secondary" (click)="onCancel()">
+          {{ cancelText }}
+        </button>
+        <button class="btn-primary" (click)="onConfirm()">
+          {{ confirmText }}
+        </button>
+      </div>
+    </div>
+  </div>
+}
