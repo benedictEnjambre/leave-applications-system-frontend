@@ -4,6 +4,7 @@ import {User} from '../../shared-data/paginated-users';
 import {UsersService} from '../../shared-data/users.service';
 import {FormsModule} from '@angular/forms';
 import {CurrentUserService} from '../../shared-data/currentUserService';
+import {PaginationComponent} from '../../shared-components/pagination/pagination.component';
 
 
 @Component({
@@ -11,7 +12,8 @@ import {CurrentUserService} from '../../shared-data/currentUserService';
   standalone: true,
   templateUrl: './user-list.component.html',
   imports: [
-    FormsModule
+    FormsModule,
+    PaginationComponent
   ],
   styleUrls: ['./user-list.component.scss']
 })
