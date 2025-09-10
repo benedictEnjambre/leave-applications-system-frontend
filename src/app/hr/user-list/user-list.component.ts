@@ -21,15 +21,19 @@ export class UsersListComponent implements OnInit {
   totalPages = 0;
   readonly pageSize = 5;
 
+  searchTerm: string='';
+
+
   showSuccessMsg = '';
   successType: 'success' | 'info' | 'error' | '' = '';
+
 
 
   constructor(
     private readonly router: Router,
     private readonly usersService: UsersService,
     private readonly currentUserService: CurrentUserService
-  ) {
+  ) {}
 /*    effect(() => {
     //  const createUserSuccessMessage = this.userTransactionSignalService.userSuccessEventMessage();
       if (!createUserSuccessMessage) return;
@@ -38,11 +42,12 @@ export class UsersListComponent implements OnInit {
       this.successType = 'success'; // default for signal
      // this.userTransactionSignalService.userSuccessEventMessage.set(null);
     }, { allowSignalWrites: true });*/
-  }
+
 
   ngOnInit() {
 
     this.loadUsers();
+  }
 
 /*    const nav = history.state;
     if (nav?.created) {
@@ -54,7 +59,7 @@ export class UsersListComponent implements OnInit {
     }*/
 
 
-  }
+
 
   private loadUsers(page: number = 1) {
     this.usersService.getAllUsers(page, this.pageSize).subscribe((response) => {
@@ -63,6 +68,17 @@ export class UsersListComponent implements OnInit {
       this.totalPages = Math.ceil(response.totalCount / this.pageSize);
     });
   }
+
+  filteredUsers(): User[] {
+    if(!this.searchTerm.trim()) {
+      return this.users;
+    }
+    return this.users.filter(user => user.name.toLowerCase().includes(this.searchTerm.toLowerCase())
+    );
+}
+
+
+
 
   goToEdit(employeeId: number): void {
     const currentUser = this.currentUserService.getCurrentUser();
@@ -86,10 +102,5 @@ export class UsersListComponent implements OnInit {
       this.loadUsers(page);
     }
   }
-
-  searchTerm(){
-
-  }
-
 
 }

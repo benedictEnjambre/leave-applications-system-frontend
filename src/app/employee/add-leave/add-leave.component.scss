@@ -14,18 +14,21 @@ $shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
 $border-radius: 8px;
 $border-radius-sm: 6px;
 
-// Page wrapper (to add spacing from sidebar + align center like Add Employee)
+// Page wrapper (match Add Employee placement)
 :host {
-  display: block;
-  padding: 2rem; // adds spacing from header/sidebar
+  display: flex;
+  padding: 2rem;
   min-height: 100%;
   background: transparent;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
 }
 
-// Header (outside box) - match Add Employee style
+// Header (match Add Employee style, centered)
 .form-header {
-  margin-bottom: 2rem; // same gap as Add Employee
-  text-align: left;
+  margin-bottom: 2rem;
+  text-align: center;
 
   .form-title {
     font-size: 1.875rem;
@@ -43,15 +46,17 @@ $border-radius-sm: 6px;
   }
 }
 
-// Main Box
+// Main Box (same width/size as Add Employee)
 .form-container {
-  max-width: 500px;
+  width: 100%;
+  max-width: 1000px;
+  margin: 0 20px;
   background-color: $background-white;
   border-radius: $border-radius;
-  box-shadow: $shadow-md;
   padding: 2rem;
+  box-shadow: $shadow-md;
   border: 1px solid $border-color;
-  margin-bottom: 2rem; // small gap at bottom like Add Employee
+  box-sizing: border-box;
 }
 
 // Leave Balance Box
@@ -119,12 +124,10 @@ $border-radius-sm: 6px;
     }
   }
 
-  // Submit button
   .form-actions {
     margin-top: 2rem;
 
     .btn-primary {
-      //width: 100%;
       padding: 0.875rem 1.5rem;
       font-size: 1rem;
       font-weight: 500;
@@ -139,23 +142,6 @@ $border-radius-sm: 6px;
       justify-content: center;
       gap: 0.5rem;
 
-      //&:hover:not(:disabled) {
-      //  background-color: $primary-hover;
-      //  transform: translateY(-1px);
-      //  box-shadow: $shadow-md;
-      //}
-      //
-      //&:active:not(:disabled) {
-      //  transform: translateY(0);
-      //}
-      //
-      //&:disabled {
-      //  background-color: $primary-disabled;
-      //  cursor: not-allowed;
-      //  transform: none;
-      //  box-shadow: none;
-      //}
-
       .loading-spinner {
         width: 1rem;
         height: 1rem;
@@ -168,13 +154,13 @@ $border-radius-sm: 6px;
   }
 }
 
-// Loading spinner animation
+// Spinner animation
 @keyframes spin {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
 }
 
-// Responsive design
+// Responsive design (same as Add Employee)
 @media (max-width: 640px) {
   :host {
     padding: 1rem;
@@ -182,6 +168,7 @@ $border-radius-sm: 6px;
 
   .form-container {
     padding: 1.5rem;
+    max-width: 100%;
   }
 
   .form-header {
