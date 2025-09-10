@@ -14,17 +14,20 @@ $shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
 $border-radius: 8px;
 $border-radius-sm: 6px;
 
-// Page wrapper (to add spacing from sidebar + align center like Add Employee)
+// Page wrapper (match Add Employee placement)
 :host {
-  display: block;
-  padding: 2rem; // adds spacing from header/sidebar
+  display: flex;
+  padding: 2rem;
   min-height: 100%;
   background: transparent;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
 }
 
-// Header (outside box) - match Add Employee style
+// Header (keep as is)
 .form-header {
-  margin-bottom: 2rem; // same gap as Add Employee
+  margin-bottom: 2rem;
   text-align: left;
 
   .form-title {
@@ -43,15 +46,18 @@ $border-radius-sm: 6px;
   }
 }
 
-// Main Box
+// Main Box (match Add Employee width)
 .form-container {
-  max-width: 500px;
+  width: 100%;
+  max-width: 1000px;
+  margin: 0 20px;
   background-color: $background-white;
   border-radius: $border-radius;
   box-shadow: $shadow-md;
   padding: 2rem;
   border: 1px solid $border-color;
-  margin-bottom: 2rem; // small gap at bottom like Add Employee
+  box-sizing: border-box;
+  margin-bottom: 2rem;
 }
 
 // Leave Balance Box

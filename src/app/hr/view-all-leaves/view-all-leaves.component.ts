@@ -3,13 +3,19 @@ import {LeaveApplication} from '../../shared-data/paginated-leave-application';
 import {CurrentUserService} from '../../shared-data/currentUserService';
 import {LeaveService} from '../../shared-data/leaveapplication.service';
 import {NgForOf, NgIf} from '@angular/common';
+import {PaginationComponent} from '../../shared-components/pagination/pagination.component';
+import {
+  EmployeeLeavesTableComponent
+} from '../../shared-components/employee-leaves-table/employee-leaves-table.component';
 
 @Component({
   selector: 'app-hr-view-all-leaves',
   standalone: true,
   imports: [
     NgForOf,
-    NgIf
+    NgIf,
+    PaginationComponent,
+    EmployeeLeavesTableComponent
   ],
   templateUrl: './view-all-leaves.component.html',
   styleUrl: './view-all-leaves.component.scss'

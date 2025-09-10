@@ -4,11 +4,13 @@ import { HttpClient } from '@angular/common/http';
 import { LeaveApplication, PaginatedLeaveApplication } from '../../shared-data/paginated-leave-application';
 import { CurrentUserService } from '../../shared-data/currentUserService';
 import {LeaveService} from '../../shared-data/leaveapplication.service';
+import {LeavesTableComponent} from '../../shared-components/leaves-table/leaves-table.component';
+import {PaginationComponent} from '../../shared-components/pagination/pagination.component';
 
 @Component({
   selector: 'app-my-leave',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, LeavesTableComponent, PaginationComponent],
   templateUrl: './my-leave.component.html',
   styleUrls: ['./my-leave.component.scss']
 })
@@ -60,4 +62,15 @@ export class EmployeeMyLeaveComponent implements OnInit {
       error: (err: any) => console.error('Failed to cancel leave:', err)
     });
   }
+
+  goToPage(page: number) {
+    if (page < 1 || page > this.totalPages) return;
+
+    const user = this.currentUserService.getCurrentUser();
+    if (!user) return;
+
+    this.currentPage = page;
+    this.loadLeaves(user.id);
+  }
+
 }

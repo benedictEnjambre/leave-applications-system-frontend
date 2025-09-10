@@ -12,7 +12,7 @@
 <!--<div class="employees-container">-->
   <div class="search-container">
     <i class="fas fa-search search-icon"></i>
-    <input type="text" class="search-input" placeholder="Search employees..." ><!--[(ngModel)]="searchTerm"-->
+    <input type="text" class="search-input" placeholder="Search employees..." [(ngModel)]="searchTerm">
   </div>
 
   <table class="employees-table">
@@ -28,7 +28,8 @@
     </thead>
 
     <tbody>
-      @for (user of users; track user.id) {
+<!--    change the user into filteredUsers -->
+      @for (user of filteredUsers(); track user.id) {
         <tr>
           <td><span class="employee-id">EMP{{ user.id.toString().padStart(3, '0') }}</span></td>
           <td><span class="employee-name">{{ user.name }}</span></td>
@@ -45,27 +46,11 @@
     </tbody>
   </table>
 
-  <div class="pagination">
-    @if (totalPages > 1) {
-      <button (click)="goToPage(currentPage - 1)" [disabled]="currentPage === 1">
-        Prev
-      </button>
-
-      @for (page of [].constructor(totalPages); track $index) {
-        <button
-          (click)="goToPage($index + 1)"
-          [disabled]="currentPage === $index + 1"
-          [class.active]="currentPage === $index + 1"
-        >
-          {{ $index + 1 }}
-        </button>
-      }
-
-      <button (click)="goToPage(currentPage + 1)" [disabled]="currentPage === totalPages">
-        Next
-      </button>
-    }
-  </div>
+  <app-pagination
+    [currentPage]="currentPage"
+    [totalPages]="totalPages"
+    (pageChange)="goToPage($event)">
+  </app-pagination>
 
 
 </div>

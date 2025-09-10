@@ -4,6 +4,7 @@ import {User} from '../../shared-data/paginated-users';
 import {UsersService} from '../../shared-data/users.service';
 import {FormsModule} from '@angular/forms';
 import {CurrentUserService} from '../../shared-data/currentUserService';
+import {PaginationComponent} from '../../shared-components/pagination/pagination.component';
 
 
 @Component({
@@ -11,7 +12,8 @@ import {CurrentUserService} from '../../shared-data/currentUserService';
   standalone: true,
   templateUrl: './user-list.component.html',
   imports: [
-    FormsModule
+    FormsModule,
+    PaginationComponent
   ],
   styleUrls: ['./user-list.component.scss']
 })
@@ -21,15 +23,19 @@ export class UsersListComponent implements OnInit {
   totalPages = 0;
   readonly pageSize = 5;
 
+  searchTerm: string='';
+
+
   showSuccessMsg = '';
   successType: 'success' | 'info' | 'error' | '' = '';
+
 
 
   constructor(
     private readonly router: Router,
     private readonly usersService: UsersService,
     private readonly currentUserService: CurrentUserService
-  ) {
+  ) {}
 /*    effect(() => {
     //  const createUserSuccessMessage = this.userTransactionSignalService.userSuccessEventMessage();
       if (!createUserSuccessMessage) return;
@@ -38,11 +44,12 @@ export class UsersListComponent implements OnInit {
       this.successType = 'success'; // default for signal
      // this.userTransactionSignalService.userSuccessEventMessage.set(null);
     }, { allowSignalWrites: true });*/
-  }
+
 
   ngOnInit() {
 
     this.loadUsers();
+  }
 
 /*    const nav = history.state;
     if (nav?.created) {
@@ -54,7 +61,7 @@ export class UsersListComponent implements OnInit {
     }*/
 
 
-  }
+
 
   private loadUsers(page: number = 1) {
     this.usersService.getAllUsers(page, this.pageSize).subscribe((response) => {
@@ -63,6 +70,17 @@ export class UsersListComponent implements OnInit {
       this.totalPages = Math.ceil(response.totalCount / this.pageSize);
     });
   }
+
+  filteredUsers(): User[] {
+    if(!this.searchTerm.trim()) {
+      return this.users;
+    }
+    return this.users.filter(user => user.name.toLowerCase().includes(this.searchTerm.toLowerCase())
+    );
+}
+
+
+
 
   goToEdit(employeeId: number): void {
     const currentUser = this.currentUserService.getCurrentUser();
@@ -86,10 +104,5 @@ export class UsersListComponent implements OnInit {
       this.loadUsers(page);
     }
   }
-
-  searchTerm(){
-
-  }
-
 
 }
