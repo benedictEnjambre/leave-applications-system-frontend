@@ -1,16 +1,14 @@
 <header class="header">
   <div class="title">Leave Management System</div>
 
-  <select
-    class="user-dropdown"
-    [value]="selectedUser?.id || ''"
-    (change)="onUserChanged($event)"
-    [disabled]="users.length === 0">
-    <option value="" disabled>
-      {{ users.length === 0 ? 'Loading users...' : 'Select user' }}
-    </option>
-    <option *ngFor="let user of users" [value]="user.id">
-      {{ user?.name || 'Unknown' }} ({{ user?.role || 'No role' }})
-    </option>
-  </select>
+  <mat-form-field class="user-dropdown">
+    <mat-label>Select user</mat-label>
+    <mat-select
+      [value]="selectedUser?.id || ''"
+      (selectionChange)="onUserChanged($event.value)">
+      <mat-option *ngFor="let user of users" [value]="user.id">
+        {{ user?.name || 'Unknown' }} ({{ user?.role || 'No role' }})
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
 </header>

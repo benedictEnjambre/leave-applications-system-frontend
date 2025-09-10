@@ -5,6 +5,7 @@
 <table *ngIf="!loading && leaves.length > 0" class="leaves-table">
   <thead>
   <tr>
+    <th>Manager</th>
     <th>Employee</th>
     <th>Start Date</th>
     <th>End Date</th>
@@ -16,6 +17,7 @@
   </thead>
   <tbody>
   <tr *ngFor="let leave of leaves">
+    <td>{{ leave.approverName}}</td>
     <td>{{ leave.employeeName || 'Unknown' }}</td>
     <td>{{ leave.startDate }}</td>
     <td>{{ leave.endDate }}</td>
@@ -38,5 +40,5 @@
   </tbody>
 </table>
 
-<p *ngIf="!loading && leaves.length === 0">No leave applications found.</p>
+<p *ngIf="!loading && leaves.length === 0" class="empty-state">No leave applications found.</p>
 </div>

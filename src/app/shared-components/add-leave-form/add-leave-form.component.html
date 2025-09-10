@@ -43,11 +43,7 @@
   </div>
 
   <div class="form-actions">
-    <button
-      type="submit"
-      class="btn-primary"
-      [disabled]="leaveForm.invalid || isSubmitting"
-    >
+    <button type="submit" class="btn-primary" [disabled]="leaveForm.invalid || isSubmitting">
       {{ isSubmitting ? 'Submitting Request...' : 'Submit Request' }}
     </button>
   </div>

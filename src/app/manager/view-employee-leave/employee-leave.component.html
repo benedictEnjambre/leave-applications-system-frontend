@@ -1,3 +1,7 @@
+<app-success-message
+  [message]="successMessageSignalService.SuccessEventMessage()"
+  (messageChange)="successMessageSignalService.SuccessEventMessage.set($event)">
+</app-success-message>
 
 <h2>Employee Leave Applications</h2>
 

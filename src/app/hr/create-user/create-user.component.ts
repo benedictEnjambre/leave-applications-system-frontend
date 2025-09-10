@@ -3,6 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { UsersService } from '../../shared-data/users.service';
 import { UserRequestBody } from '../../shared-data/paginated-users';
 import {Router} from '@angular/router';
+import {SuccessMessageSignalService} from '../../shared-data/success-message-signal.service';
 
 interface Manager {
   id: number;
@@ -39,7 +40,8 @@ export class CreateUserComponent implements OnInit {
 
   constructor(
     private readonly usersService: UsersService,
-    private readonly router: Router
+    private readonly router: Router,
+    public readonly successMessageSignalService: SuccessMessageSignalService
   ) {}
 
   ngOnInit(): void {
@@ -66,9 +68,8 @@ export class CreateUserComponent implements OnInit {
 
     this.usersService.saveUser(payload).subscribe({
       next: () => {
-        alert('Employee added successfully!');
+        this.successMessageSignalService.SuccessEventMessage.set('Employee added successfully!');
         this.router.navigate(['/hr/employees']);
-
       },
       error: (err) => {
         console.error('Error adding employee:', err);

@@ -8,15 +8,16 @@ import {
   EmployeeLeavesTableComponent
 } from '../../shared-components/employee-leaves-table/employee-leaves-table.component';
 import {PaginationComponent} from '../../shared-components/pagination/pagination.component';
+import {SuccessMessageSignalService} from '../../shared-data/success-message-signal.service';
+import {SuccessMessageComponent} from '../../shared-components/success-message/success-message.component';
 
 @Component({
   selector: 'view-employee-leave',
   standalone: true,
   imports: [
-    NgForOf,
-    NgIf,
     EmployeeLeavesTableComponent,
-    PaginationComponent
+    PaginationComponent,
+    SuccessMessageComponent
   ],
   templateUrl: './employee-leave.component.html',
   styleUrl: './employee-leave.component.scss'
@@ -24,15 +25,15 @@ import {PaginationComponent} from '../../shared-components/pagination/pagination
 export class ManagerViewEmployeeLeaveComponent implements OnInit{
   leaves: LeaveApplication[] = [];
   currentPage = 1;
-  itemsPerPage = 15;
+  itemsPerPage = 5;
   totalPages = 0;
   loading = false;
 
   constructor(
     private currentUserService: CurrentUserService,
     private readonly leaveService: LeaveService,
-    private readonly router: Router
-
+    private readonly router: Router,
+    public readonly successMessageSignalService: SuccessMessageSignalService
 ) {}
 
   ngOnInit() {
@@ -65,6 +66,7 @@ export class ManagerViewEmployeeLeaveComponent implements OnInit{
 
     this.leaveService.approveLeave(user.id, leaveId).subscribe({
       next: () => {
+        this.successMessageSignalService.SuccessEventMessage.set('Leave Application Successfully Approved');
         this.loadTeamLeaves(user.id)
       },
       error: (err: any) => console.error('Failed to approve leave:', err)
@@ -77,6 +79,7 @@ export class ManagerViewEmployeeLeaveComponent implements OnInit{
 
     this.leaveService.rejectLeave(user.id, leaveId).subscribe({
       next: (updatedLeave: LeaveApplication) => {
+        this.successMessageSignalService.SuccessEventMessage.set('Leave Application Successfully Rejected');
         this.loadTeamLeaves(user.id);
         this.currentUserService.refreshCurrentUser(updatedLeave.employeeId);
       },

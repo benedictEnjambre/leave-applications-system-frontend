@@ -2,20 +2,20 @@ import {Component, OnInit} from '@angular/core';
 import {LeaveApplication} from '../../shared-data/paginated-leave-application';
 import {CurrentUserService} from '../../shared-data/currentUserService';
 import {LeaveService} from '../../shared-data/leaveapplication.service';
-import {NgForOf, NgIf} from '@angular/common';
 import {PaginationComponent} from '../../shared-components/pagination/pagination.component';
 import {
   EmployeeLeavesTableComponent
 } from '../../shared-components/employee-leaves-table/employee-leaves-table.component';
+import {SuccessMessageSignalService} from '../../shared-data/success-message-signal.service';
+import {SuccessMessageComponent} from '../../shared-components/success-message/success-message.component';
 
 @Component({
   selector: 'app-hr-view-all-leaves',
   standalone: true,
   imports: [
-    NgForOf,
-    NgIf,
     PaginationComponent,
-    EmployeeLeavesTableComponent
+    EmployeeLeavesTableComponent,
+    SuccessMessageComponent
   ],
   templateUrl: './view-all-leaves.component.html',
   styleUrl: './view-all-leaves.component.scss'
@@ -29,7 +29,8 @@ export class HRViewAllLeavesComponent implements OnInit {
 
   constructor(
     private currentUserService: CurrentUserService,
-    private readonly leaveService: LeaveService
+    private readonly leaveService: LeaveService,
+    public readonly successMessageSignalService: SuccessMessageSignalService
   ) {
   }
 
@@ -62,7 +63,10 @@ export class HRViewAllLeavesComponent implements OnInit {
     if (!user) return;
 
     this.leaveService.approveLeave(user.id, leaveId).subscribe({
-      next: () => this.loadAllLeaves(user.id),
+      next: () => {
+        this.loadAllLeaves(user.id)
+        this.successMessageSignalService.SuccessEventMessage.set('Leave Application Successfully Approved');
+      },
       error: (err: any) => console.error('Failed to approve leave:', err)
     });
   }
@@ -72,7 +76,10 @@ export class HRViewAllLeavesComponent implements OnInit {
     if (!user) return;
 
     this.leaveService.rejectLeave(user.id, leaveId).subscribe({
-      next: () => this.loadAllLeaves(user.id),
+      next: () => {
+        this.loadAllLeaves(user.id)
+        this.successMessageSignalService.SuccessEventMessage.set('Leave Application Successfully Rejected');
+      },
       error: (err: any) => console.error('Failed to reject leave:', err)
     });
   }

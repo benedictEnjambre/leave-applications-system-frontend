@@ -6,6 +6,7 @@ export interface PaginatedLeaveApplication {
 export interface LeaveApplication {
   employeeId: number;
   employeeName: string;
+  approverName: string;
   id: number;
   startDate: string;
   endDate: string;

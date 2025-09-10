@@ -1,3 +1,8 @@
+<app-success-message
+  [message]="successMessageSignalService.SuccessEventMessage()"
+  (messageChange)="successMessageSignalService.SuccessEventMessage.set($event)">
+</app-success-message>
+
 <div class="form-header">
   <h1 class="form-title">Apply for Leave</h1>
   <p class="form-subtitle">Submit your leave request</p>
