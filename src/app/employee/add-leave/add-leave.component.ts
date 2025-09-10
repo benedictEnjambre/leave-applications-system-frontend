@@ -63,7 +63,8 @@ export class EmployeeAddLeaveComponent implements OnInit {
     const startDate = new Date(start);
     const endDate = new Date(end);
 
-    if (endDate < startDate) {
+    if (startDate > endDate) {
+      alert('Start date cannot be after end date.');
       this.leaveForm.get('totalDays')?.setValue(0);
       return;
     }
@@ -83,6 +84,16 @@ export class EmployeeAddLeaveComponent implements OnInit {
   }
 
   saveLeaveApplication() {
+    const start = this.leaveForm.get('startDate')?.value;
+    const end = this.leaveForm.get('endDate')?.value;
+
+    if (!start || !end) return;
+
+    if (new Date(start) > new Date(end)) {
+      alert('Start date cannot be after end date.');
+      return;
+    }
+
     if (this.leaveForm.valid) {
       const totalDays = this.leaveForm.get('totalDays')?.value;
       if (totalDays > this.availableLeave) {
