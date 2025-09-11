@@ -5,7 +5,7 @@
 <table *ngIf="!loading && leaves.length > 0" class="leaves-table">
   <thead>
   <tr>
-    <th>Manager</th>
+    <th>Approver</th>
     <th>Employee</th>
     <th>Start Date</th>
     <th>End Date</th>
@@ -19,8 +19,8 @@
   <tr *ngFor="let leave of leaves">
     <td>{{ leave.approverName}}</td>
     <td>{{ leave.employeeName || 'Unknown' }}</td>
-    <td>{{ leave.startDate }}</td>
-    <td>{{ leave.endDate }}</td>
+    <td>{{ leave.startDate | date: 'MMMM d, y'}}</td>
+    <td>{{ leave.endDate | date: 'MMMM d, y'}}</td>
     <td>{{ leave.status }}</td>
     <td>{{ leave.days }}</td>
     <td>{{ leave.remarks }}</td>

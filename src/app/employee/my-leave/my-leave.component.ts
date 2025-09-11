@@ -58,7 +58,7 @@ export class EmployeeMyLeaveComponent implements OnInit {
 
     this.leaveService.cancelLeave(user.id, leaveId).subscribe({
       next: () => {
-        this.successMessageSignalService.SuccessEventMessage.set('Successfully Cancel Leave Application');
+        this.successMessageSignalService.SuccessEventMessage.set('Leave Application Successfully Cancelled');
         this.loadLeaves(user.id);
         this.currentUserService.refreshCurrentUser(user.id);
       },
