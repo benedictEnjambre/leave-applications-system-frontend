@@ -3,11 +3,13 @@ import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { UsersService } from '../../shared-data/users.service';
 import { User } from '../../shared-data/paginated-users';
 import { CurrentUserService } from '../../shared-data/currentUserService';
+import { MatSelectModule } from '@angular/material/select';
+import { MatFormFieldModule } from '@angular/material/form-field';
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, MatSelectModule, MatFormFieldModule],
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss']
 })
@@ -32,7 +34,7 @@ export class HeaderComponent implements OnInit {
   }
 
   private loadUsers() {
-    this.usersService.getAllUsers(1, 10).subscribe({
+    this.usersService.getAllUsers(1, 50).subscribe({   // fetch more than 10
       next: (response) => {
         this.users = response.content || [];
         if (this.users.length > 0) {
@@ -47,10 +49,7 @@ export class HeaderComponent implements OnInit {
     });
   }
 
-  onUserChanged(event: Event) {
-    const target = event.target as HTMLSelectElement;
-    const selectedId = Number(target.value);
-
+  onUserChanged(selectedId: number) {
     if (selectedId) {
       this.usersService.getUserById(selectedId).subscribe({
         next: (freshUser) => {
@@ -63,5 +62,4 @@ export class HeaderComponent implements OnInit {
       });
     }
   }
-
 }

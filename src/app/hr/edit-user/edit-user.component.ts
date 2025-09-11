@@ -5,7 +5,11 @@ import { FormsModule } from '@angular/forms';
 import { User, UserUpdateRequest } from '../../shared-data/paginated-users';
 import { UsersService } from '../../shared-data/users.service';
 import { CurrentUserService } from '../../shared-data/currentUserService';
+
 import {ConfirmationModalComponent} from '../../shared-components/confirmation-modal/confirmation-modal.component';
+
+import {SuccessMessageSignalService} from '../../shared-data/success-message-signal.service';
+
 
 interface Manager {
   id: number;
@@ -40,7 +44,8 @@ export class EditUserComponent implements OnInit {
     private readonly route: ActivatedRoute,
     private readonly router: Router,
     private readonly usersService: UsersService,
-    private readonly currentUserService: CurrentUserService
+    private readonly currentUserService: CurrentUserService,
+    public readonly successMessageSignalService: SuccessMessageSignalService
   ) {}
 
   ngOnInit(): void {
@@ -99,7 +104,10 @@ export class EditUserComponent implements OnInit {
     };
 
     this.usersService.updateUser(this.user.id, updateBody).subscribe({
-      next: () => this.router.navigate(['/hr/employees'], { state: { edited: true } }),
+      next: () => {
+        this.successMessageSignalService.SuccessEventMessage.set('Employee updated successfully!');
+        this.router.navigate(['/hr/employees']);
+        },
       error: (err) => {
         console.error('Update failed', err);
         alert('Error updating employee. Please try again.');

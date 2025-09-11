@@ -5,6 +5,8 @@ import {UsersService} from '../../shared-data/users.service';
 import {FormsModule} from '@angular/forms';
 import {CurrentUserService} from '../../shared-data/currentUserService';
 import {PaginationComponent} from '../../shared-components/pagination/pagination.component';
+import {SuccessMessageSignalService} from '../../shared-data/success-message-signal.service';
+import {SuccessMessageComponent} from '../../shared-components/success-message/success-message.component';
 
 
 @Component({
@@ -13,7 +15,8 @@ import {PaginationComponent} from '../../shared-components/pagination/pagination
   templateUrl: './user-list.component.html',
   imports: [
     FormsModule,
-    PaginationComponent
+    PaginationComponent,
+    SuccessMessageComponent
   ],
   styleUrls: ['./user-list.component.scss']
 })
@@ -34,7 +37,8 @@ export class UsersListComponent implements OnInit {
   constructor(
     private readonly router: Router,
     private readonly usersService: UsersService,
-    private readonly currentUserService: CurrentUserService
+    private readonly currentUserService: CurrentUserService,
+    public readonly successMessageSignalService: SuccessMessageSignalService
   ) {}
 /*    effect(() => {
     //  const createUserSuccessMessage = this.userTransactionSignalService.userSuccessEventMessage();
