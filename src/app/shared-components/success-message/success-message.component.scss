@@ -1,0 +1,54 @@
+.success-message-container {
+  position: fixed;
+  top: 20px;            // distance from top
+  right: 20px;          // distance from right
+  z-index: 2000;        // make sure it's above modal/table
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  border: 1px solid #22c55e; // softer green border
+  border-radius: 8px;
+  background: #16a34a; // solid success green
+  color: #fff;
+  font-size: 0.95rem;
+  font-weight: 500;
+  margin: 1rem 0;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  animation: fadeSlideIn 0.3s ease;
+}
+
+.icon {
+  font-size: 1.25rem;
+  margin-right: 8px;
+}
+
+.text {
+  flex: 1;
+}
+
+.close-btn {
+  background: transparent;
+  border: none;
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #fff;
+  cursor: pointer;
+  margin-left: 8px;
+  transition: opacity 0.2s ease;
+
+  &:hover {
+    opacity: 0.7;
+  }
+}
+
+@keyframes fadeSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

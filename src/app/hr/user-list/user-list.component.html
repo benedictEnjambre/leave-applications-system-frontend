@@ -1,4 +1,8 @@
-<!-- Angular HTML Template -->
+<app-success-message
+  [message]="successMessageSignalService.SuccessEventMessage()"
+  (messageChange)="successMessageSignalService.SuccessEventMessage.set($event)">
+</app-success-message>
+
 <div class="employees-container">
 
 <!--  <div class="employees-table"></div>-->

@@ -6,6 +6,7 @@ import {LeaveService} from '../../shared-data/leaveapplication.service';
 import {Router} from '@angular/router';
 import {LeavesTableComponent} from '../../shared-components/leaves-table/leaves-table.component';
 import {PaginationComponent} from '../../shared-components/pagination/pagination.component';
+import {SuccessMessageSignalService} from '../../shared-data/success-message-signal.service';
 
 @Component({
   selector: 'app-view-leave',
@@ -29,7 +30,8 @@ export class ManagerViewLeaveComponent implements OnInit{
   constructor(
     private readonly router: Router,
     private currentUserService: CurrentUserService,
-    private readonly leaveService: LeaveService
+    private readonly leaveService: LeaveService,
+    public readonly successMessageSignalService: SuccessMessageSignalService
   ) {}
 
   ngOnInit() {
@@ -62,6 +64,7 @@ export class ManagerViewLeaveComponent implements OnInit{
 
     this.leaveService.cancelLeave(user.id, leaveId).subscribe({
       next: () => {
+        this.successMessageSignalService.SuccessEventMessage.set('Leave Application Successfully Applied');
         this.loadLeaves(user.id);
         this.currentUserService.refreshCurrentUser(user.id);
       },

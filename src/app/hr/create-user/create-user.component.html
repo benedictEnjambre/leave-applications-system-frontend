@@ -80,12 +80,7 @@
         class="btn-primary"
         [disabled]="form.invalid || isSubmitting"
       >
-        @if (isSubmitting) {
-          <span class="loading-spinner"></span>
-          Adding Employee...
-        } @else {
-          Add Employee
-        }
+        {{ isSubmitting ? 'Adding Employee...' : 'Add Employee' }}
       </button>
     </div>
   </form>
