@@ -24,8 +24,30 @@ export class AddLeaveFormComponent implements OnInit {
       remarks: new FormControl('', [Validators.required, Validators.minLength(5)])
     });
 
-    this.leaveForm.get('startDate')?.valueChanges.subscribe(() => this.calculateTotalDays());
-    this.leaveForm.get('endDate')?.valueChanges.subscribe(() => this.calculateTotalDays());
+    this.leaveForm.get('startDate')?.valueChanges.subscribe(value => {
+      if (this.isWeekend(value)) {
+        this.leaveForm.get('startDate')?.setValue('');
+        alert('Weekends are not allowed as start dates.');
+      } else {
+        this.calculateTotalDays();
+      }
+    });
+
+    this.leaveForm.get('endDate')?.valueChanges.subscribe(value => {
+      if (this.isWeekend(value)) {
+        this.leaveForm.get('endDate')?.setValue('');
+        alert('Weekends are not allowed as end dates.');
+      } else {
+        this.calculateTotalDays();
+      }
+    });
+  }
+
+  private isWeekend(date: string | null): boolean {
+    if (!date) return false;
+    const d = new Date(date);
+    const day = d.getDay();
+    return day === 0 || day === 6; // Sunday=0, Saturday=6
   }
 
   calculateTotalDays() {
