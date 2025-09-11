@@ -1,20 +1,25 @@
 import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { ConfirmationModalComponent } from '../../shared-components/confirmation-modal/confirmation-modal.component';
 
 @Component({
   selector: 'app-add-leave-form',
   standalone: true,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, ConfirmationModalComponent],
   templateUrl: './add-leave-form.component.html',
   styleUrls: ['./add-leave-form.component.scss']
 })
 export class AddLeaveFormComponent implements OnInit {
   @Input() availableLeave: number = 0;
   @Input() isSubmitting = false;
-  @Output() formSubmit = new EventEmitter<any>(); // notify parent when form is valid
+  @Output() formSubmit = new EventEmitter<any>();
+
   leaveForm!: FormGroup;
 
+  // modal control
+  showModal = false;
+  pendingValue: any = null;
 
   ngOnInit() {
     this.leaveForm = new FormGroup({
@@ -69,7 +74,22 @@ export class AddLeaveFormComponent implements OnInit {
       return;
     }
 
-    this.formSubmit.emit(this.leaveForm.getRawValue());
-    this.leaveForm.reset({totalDays: 0});
+    // ✅ store form values & show confirmation modal
+    this.pendingValue = this.leaveForm.getRawValue();
+    this.showModal = true;
+  }
+
+  confirmSubmit() {
+    if (this.pendingValue) {
+      this.formSubmit.emit(this.pendingValue);
+      this.leaveForm.reset({ totalDays: 0 });
+      this.pendingValue = null;
+    }
+    this.showModal = false;
+  }
+
+  cancelSubmit() {
+    this.showModal = false;
+    this.pendingValue = null;
   }
 }

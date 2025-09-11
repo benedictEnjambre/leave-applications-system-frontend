@@ -6,7 +6,8 @@
 </div>
 
 <div class="form-container">
-  <form #form="ngForm" (ngSubmit)="saveUser()" class="employee-form">
+  <!-- remove direct (ngSubmit) because we’ll confirm first -->
+  <form #form="ngForm" class="employee-form">
     <!-- Employee Name -->
     <div class="form-group">
       <label for="name" class="form-label">Employee Name</label>
@@ -76,12 +77,24 @@
     <!-- Submit -->
     <div class="form-actions">
       <button
-        type="submit"
+        type="button"
         class="btn-primary"
         [disabled]="form.invalid || isSubmitting"
+        (click)="showModal = true"
       >
         {{ isSubmitting ? 'Adding Employee...' : 'Add Employee' }}
       </button>
     </div>
   </form>
 </div>
+
+<!-- ✅ Confirmation Modal -->
+<app-confirmation-modal
+  [isOpen]="showModal"
+  title="Confirm Employee Creation"
+  message="Are you sure you want to add this employee?"
+  confirmText="Add"
+  cancelText="Cancel"
+  (confirmed)="saveUser()"
+  (cancelled)="showModal = false">
+</app-confirmation-modal>

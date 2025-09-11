@@ -51,8 +51,20 @@
 
       <div class="form-actions">
         <button type="button" class="btn-secondary" (click)="goBack()">Cancel</button>
-        <button type="button" class="btn-primary" (click)="saveChanges()">Save Changes</button>
+        <!-- Instead of calling saveChanges() directly, open the modal -->
+        <button type="button" class="btn-primary" (click)="showModal = true">Save Changes</button>
       </div>
     </form>
   </div>
 }
+
+<!-- Confirmation Modal -->
+<app-confirmation-modal
+  [isOpen]="showModal"
+  title="Confirm Save"
+  message="Are you sure you want to save these changes?"
+  confirmText="Save"
+  cancelText="Cancel"
+  (confirmed)="saveChanges()"
+  (cancelled)="showModal = false">
+</app-confirmation-modal>

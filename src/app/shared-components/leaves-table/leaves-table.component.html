@@ -39,3 +39,14 @@
 <p *ngIf="!loading && leaves.length === 0" class="empty-state">
   No leave applications found.
 </p>
+
+<!-- ✅ Confirmation Modal -->
+<app-confirmation-modal
+  [isOpen]="showModal"
+  title="Cancel Leave Request"
+  message="Are you sure you want to cancel this leave request?"
+  confirmText="Yes, Cancel"
+  cancelText="No"
+  (confirmed)="confirmCancel()"
+  (cancelled)="cancelModal()">
+</app-confirmation-modal>
