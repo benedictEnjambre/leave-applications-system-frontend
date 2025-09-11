@@ -25,7 +25,7 @@
         <td *ngIf="showCancel">
           <button
             (click)="onCancel(leave.id)"
-            [disabled]="leave.status !== 'PENDING'"
+            [disabled]="leave.status !== 'PENDING' && leave.status !== 'APPROVED'"
             class="btn-cancel"
           >
             Cancel
