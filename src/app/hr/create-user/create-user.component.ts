@@ -67,6 +67,9 @@ export class CreateUserComponent implements OnInit {
     this.isSubmitting = true;
     this.showModal = false;
 
+    // Always sync remainingCredits with totalCredits
+    this.user.remainingCredits = this.user.totalCredits;
+
     const payload: UserRequestBody = {
       ...this.user,
       managerId: this.user.managerId || null
@@ -79,19 +82,11 @@ export class CreateUserComponent implements OnInit {
       },
       error: (err) => {
         console.error('Error adding employee:', err);
+        alert("error")
         this.isSubmitting = false;
       },
       complete: () => (this.isSubmitting = false)
     });
   }
 
-  private resetForm(): void {
-    this.user = {
-      name: '',
-      role: '',
-      managerId: null,
-      totalCredits: 25,
-      remainingCredits: 25
-    };
-  }
 }
