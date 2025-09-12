@@ -64,7 +64,7 @@ export class ManagerViewLeaveComponent implements OnInit{
 
     this.leaveService.cancelLeave(user.id, leaveId).subscribe({
       next: () => {
-        this.successMessageSignalService.SuccessEventMessage.set('Leave Application Successfully Applied');
+        this.successMessageSignalService.SuccessEventMessage.set('Leave Application Successfully Cancelled');
         this.loadLeaves(user.id);
         this.currentUserService.refreshCurrentUser(user.id);
       },
